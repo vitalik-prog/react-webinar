@@ -30,7 +30,7 @@ class Store {
     this.state = newState;
     // Оповещаем всех подписчиков об изменении стейта
     for (const lister of this.listners) {
-      lister();
+      lister(this.state);
     }
   }
 
@@ -43,10 +43,11 @@ class Store {
    * Создание записи
    */
   createItem() {
+    const code = Math.max(0, ...this.state.items.map(item => item.code)) + 1;
     this.setState({
       items: this.state.items.concat({
-        code: Math.round(Math.random() * 100),
-        title: 'Новая запись'
+        code,
+        title: 'Новая запись №'+code
       })
     });
   }

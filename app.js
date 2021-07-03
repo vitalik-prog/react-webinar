@@ -1,36 +1,33 @@
 /**
  * Приложение
  * @param store {Store} Состояние с действиями
- * @return {HTMLElement} DOM всей страницы.
+ * @return {ReactElement}
  */
 function App({store}) {
   return (
-    createElement('div', {className: 'App'},
-      createElement('div', {className: 'App__head'},
-        createElement('h1', {textContent: 'Приложение на чистом JS'}),
+    React.createElement('div', {className: 'App'},
+      React.createElement('div', {className: 'App__head'},
+        React.createElement('h1', {}, 'Приложение на чистом JS'),
       ),
-      createElement('div', {className: 'Controls'},
-        createElement('button', {
-          textContent: 'Добавить',
-          onclick: () => store.createItem()
-        }),
+      React.createElement('div', {className: 'Controls'},
+        React.createElement('button', {onClick: () => store.createItem()}, 'Добавить'),
       ),
-      createElement('div', {className: 'App__center'},
-        createElement('div', {className: 'List'}, () => store.getState().items.map(item =>
-            createElement('div', {
+      React.createElement('div', {className: 'App__center'},
+        React.createElement('div', {className: 'List'}, store.getState().items.map(item =>
+            React.createElement('div', {
+                key: item.code,
                 className: 'List__item' + (item.selected ? ' List__item_selected' : '')
               },
-              createElement('div', {
+              React.createElement('div', {
                   className: 'Item',
-                  onclick: () => store.selectItem(item.code)
+                  onClick: () => store.selectItem(item.code)
                 },
-                createElement('div', {className: 'Item__number', textContent: item.code}),
-                createElement('div', {className: 'Item__title', textContent: item.title}),
-                createElement('div', {className: 'Item__actions'},
-                  createElement('button', {
-                    textContent: 'Удалить',
-                    onclick: () => store.deleteItem(item.code)
-                  }),
+                React.createElement('div', {className: 'Item__number'}, item.code),
+                React.createElement('div', {className: 'Item__title'}, item.title),
+                React.createElement('div', {className: 'Item__actions'},
+                  React.createElement('button', {onClick: () => store.deleteItem(item.code)},
+                    'Удалить'
+                  ),
                 )
               )
             )

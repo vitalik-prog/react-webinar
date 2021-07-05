@@ -1,3 +1,9 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Store from './store.js';
+import {Provider} from './utils.js';
+import App from './app.js';
+
 // Состояние приложения
 const store = new Store({
   items: [
@@ -7,7 +13,7 @@ const store = new Store({
     {code: 4, title: 'Короткое название'},
     {code: 5, title: 'Запись'},
     {code: 6, title: 'Пример названия'},
-    {code: 7, title: 'Седьмой'},
+    {code: 7, title: 'Седьмой'}
   ]
 });
 
@@ -18,3 +24,10 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("app") // Элемент в документе, куда рендерить приложение
 );
+
+
+
+
+
+
+

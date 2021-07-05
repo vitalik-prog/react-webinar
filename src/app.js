@@ -1,7 +1,9 @@
+import React from 'react';
+import './style.css';
+
 /**
  * Приложение
  * @param store {Store} Состояние с действиями
- * @return {}
  */
 function App({store}) {
   return (
@@ -34,3 +36,5 @@ function App({store}) {
     </div>
   );
 }
+
+export default App;

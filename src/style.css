@@ -4,6 +4,7 @@ body{
     background: #535353;
     font-family: sans-serif;
 }
+
 /* Страница*/
 .App{
     max-width: 1024px;
@@ -62,22 +63,4 @@ body{
 }
 .Item__number{
     padding: 20px 10px 20px 20px;
-}
-
-/* Пагинатор */
-.Paginator{
-    display: flex;
-    justify-content: flex-end;
-    padding: 20px;
-}
-.Paginator__page {
-    margin: 5px;
-    color: blue;
-    padding: 3px 5px;
-    display: inline-block;
-}
-.Paginator__page_current{
-    color: white;
-    background: #444;
-    text-decoration: none;
 }

@@ -12,6 +12,10 @@ class Store {
    */
   subscribe(callback) {
     this.listners.push(callback);
+    // Возвращаем функцию для отписки
+    return () => {
+      this.listners = this.listners.filter(item => item !== callback);
+    }
   }
 
   /**
@@ -77,3 +81,5 @@ class Store {
     });
   }
 }
+
+export default Store;

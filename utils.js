@@ -14,5 +14,36 @@ function Provider({store, children}) {
   }, []);
 
   // Рендер вложенных компонентов с передачей им store
-  return React.Children.map(children, child => React.cloneElement(child, {store}));
+  return React.Children.map(
+    children,
+    child => React.cloneElement(child, {store})
+  );
 }
+
+
+
+
+
+
+/**
+ * Вариант провайдера с использованием класса React.Component
+ */
+class ProviderClass extends React.Component {
+
+  componentDidMount() {
+    this.unsubscribe = this.props.store.subscribe(state => this.setState(state))
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscribe) this.unsubscribe();
+  }
+
+  render() {
+    // Рендерим всех подчиенных, который переданы в Provider с передачей им свойств
+    return React.Children.map(
+      this.props.children,
+      child => React.cloneElement(child, {store: this.props.store}));
+  }
+}
+
+

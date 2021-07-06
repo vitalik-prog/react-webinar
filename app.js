@@ -1,7 +1,6 @@
 /**
  * Приложение
  * @param store {Store} Состояние с действиями
- * @return {}
  */
 function App({store}) {
   return (

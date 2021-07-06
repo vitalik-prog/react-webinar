@@ -9,7 +9,7 @@ function Provider({store, children}){
 
   // Подписка на изменение store после первого рендера компонента
   React.useEffect(() => {
-    store.subscribe( state => setState(state))
+    return store.subscribe( state => setState(state))
   }, []);
 
   // Рендер вложенных компонентов с передачей им store

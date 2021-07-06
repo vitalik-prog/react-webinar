@@ -14,10 +14,11 @@ const store = new Store({
   ]
 });
 
-// Начальный рендер
-render(root, App({store}));
-
-// При изменении состояния заново рендерим приложение
+// Реакция на изменение store - заново рендерим приложение
 store.subscribe(() => {
   render(root, App({store}))
 });
+
+// Первый рендер рендер (один раз)
+render(root, App({store}));
+

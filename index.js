@@ -11,33 +11,10 @@ const store = new Store({
   ]
 });
 
-
-// Элемент в документе, куда рендерить приложение
-const root = document.getElementById("app");
-
-/**
- * Компонент React, который реагирует на изменения store для перерисовки
- * @param store
- * @param children
- * @return {*}
- * @constructor
- */
-function StoreProvider({store, children}){
-  // Внутренне состояние компонента и метод его установки
-  // Если состояние изменить, то React обновит компонент
-  const [state, setState] = React.useState(store.getState());
-
-  // Подписка на изменение store после первого рендера компонента
-  React.useEffect(() => {
-    store.subscribe( state => setState(state))
-  }, []);
-
-  // Рендер вложенных компонентов с передачей им store
-  return React.createElement(children, {store});
-}
-
 // Сообщаем реакту что и куда рендерить.
 ReactDOM.render(
-  React.createElement(StoreProvider, {store}, App),
-  root
+  React.createElement(Provider, {store},
+    React.createElement(App)
+  ),
+  document.getElementById("app")
 );

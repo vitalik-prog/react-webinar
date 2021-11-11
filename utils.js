@@ -21,10 +21,6 @@ function Provider({store, children}) {
 }
 
 
-
-
-
-
 /**
  * Вариант провайдера с использованием класса React.Component
  */
@@ -45,5 +41,3 @@ class ProviderClass extends React.Component {
       child => React.cloneElement(child, {store: this.props.store}));
   }
 }
-
-

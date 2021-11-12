@@ -1,3 +1,5 @@
+const root = document.getElementById("app");
+
 // Состояние приложения
 const store = new Store({
   items: [
@@ -11,10 +13,9 @@ const store = new Store({
   ]
 });
 
+store.subscribe(() => {
+  ReactDOM.render(<App store={store}/>, root);
+});
+
 // Сообщаем реакту что и куда рендерить.
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("app") // Элемент в документе, куда рендерить приложение
-);
+ReactDOM.render(<App store={store}/>, root);

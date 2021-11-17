@@ -36,11 +36,11 @@ body{
 }
 .List__item{
     border-bottom: 1px dashed #ccc;
+    transition: background-color 1s;
 }
 
 .List__item_selected{
     background: #75aaf1;
-    transition: background-color 1s;
 }
 
 .List__item:first-child{

@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Store from './store.js';
-import {Provider} from './utils.js';
 import App from './app.js';
+
+const root = document.getElementById("app");
 
 // Состояние приложения
 const store = new Store({
@@ -18,16 +19,9 @@ const store = new Store({
 });
 
 // Сообщаем реакту что и куда рендерить.
-ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("app") // Элемент в документе, куда рендерить приложение
-);
+store.subscribe(() => {
+  ReactDOM.render(<App store={store}/>, root);
+});
 
-
-
-
-
-
-
+// Сообщаем реакту что и куда рендерить.
+ReactDOM.render(<App store={store}/>, root);

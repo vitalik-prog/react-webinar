@@ -1,0 +1,16 @@
+/*Список*/
+.List{
+
+}
+.List__item{
+    border-bottom: 1px dashed #ccc;
+    transition: background-color 1s;
+}
+
+.List__item_selected{
+    background: #75aaf1;
+}
+
+.List__item:first-child{
+    border-top: 1px dashed #ccc;
+}

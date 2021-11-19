@@ -21,7 +21,7 @@ export const selectItem = (state, code) => {
       if (item.code === code) {
         item.selected = !item.selected;
         if (item.selected) {
-          item.clickCount = item.clickCount + 1;
+          item.clickCount++;
         }
       }
       return item;

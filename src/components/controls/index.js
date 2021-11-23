@@ -1,10 +1,20 @@
 import React from "react";
+import propTypes from 'prop-types';
 import './styles.css';
 
-function Controls({store}){
+function Controls({onCreate}){
+  console.log('Controls');
   return <div className='Controls'>
-    <button onClick={() => store.createItem()}> Добавить</button>
+    <button onClick={onCreate}> Добавить</button>
   </div>
 }
 
-export default Controls;
+Controls.propTypes = {
+  onCreate: propTypes.func.isRequired
+}
+
+Controls.defaultProps = {
+  onCreate: () => {}
+}
+
+export default React.memo(Controls);

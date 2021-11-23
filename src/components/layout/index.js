@@ -2,6 +2,7 @@ import React from "react";
 import './styles.css';
 
 function Layout({head, center, children}){
+  console.log('Layout');
   return (
     <div className='Layout'>
       <div className='Layout__head'>
@@ -14,4 +15,4 @@ function Layout({head, center, children}){
   )
 }
 
-export default Layout;
+export default React.memo(Layout);

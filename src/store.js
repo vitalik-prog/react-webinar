@@ -76,8 +76,7 @@ class Store {
         if (item.code === code){
           return {
             ...item,
-            selected: !item.selected,
-            counter: item.selected ? item.counter : item.counter + 1 || 1
+            selected: !item.selected
           };
         }
         return item;

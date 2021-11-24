@@ -1,7 +1,7 @@
 import React from "react";
 import './styles.css';
 
-function Layout({head, center, children}){
+function Layout({head, content, children}){
   console.log('Layout');
   return (
     <div className='Layout'>
@@ -9,7 +9,7 @@ function Layout({head, center, children}){
         {head}
       </div>
       <div className='Layout__center'>
-        {children}>
+        {content || children}
       </div>
     </div>
   )

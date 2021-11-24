@@ -1,5 +1,6 @@
 import React from "react";
 import propTypes from 'prop-types';
+import plural from 'plural-ru';
 import './styles.css';
 
 function Item({item, onSelect, onDelete}){
@@ -7,7 +8,10 @@ function Item({item, onSelect, onDelete}){
   return (
     <div className={'Item'  + (item.selected ? ' Item_selected' : '')} onClick={() => onSelect(item.code)}>
       <div className='Item__number'>{item.code}</div>
-      <div className='Item__title'>{item.title}</div>
+      <div className='Item__title'>
+        {item.title}
+        {item.counter ? ` | Выделялся ${item.counter} ${plural(item.counter, 'раз', 'раза', 'раз')}` : null}
+      </div>
       <div className='Item__actions'>
         <button onClick={() => onDelete(item.code)}>
           Удалить

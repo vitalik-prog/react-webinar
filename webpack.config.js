@@ -1,20 +1,20 @@
 // Режим сборки development или production
-process.env.NODE_ENV = process.env.NODE_ENV || "development";
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const path = require("path");
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require('path');
 
 // Опции webpack
 let config = {
   // Директория с исходным кодом приложения
-  context: path.join(__dirname, "/src"),
+  context: path.join(__dirname, '/src'),
   // Главный файл приложения
   entry: `index.js`,
   // Куда и как делать сборку
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "[name].js",
+    path: path.join(__dirname, 'dist'),
+    filename: '[name].js',
     // Очистить ./dist от предыдущей сборки
     clean: true,
   },
@@ -23,17 +23,17 @@ let config = {
     new MiniCssExtractPlugin(),
     // Создание dist/index.html с подключенной сборкой
     new HtmlWebPackPlugin({
-      template: "./index.html",
-      filename: "./index.html",
-      base: "",
+      template: './index.html',
+      filename: './index.html',
+      base: '',
     }),
   ],
   //
   resolve: {
     // Расширения по умолчанию, если не указаны в import
-    extensions: [".js", ".jsx"],
+    extensions: ['.js', '.jsx'],
     // Где искать файлы подключаемых модулей, в том числе главный index.js
-    modules: ["./", "node_modules"],
+    modules: ['./', 'node_modules'],
   },
   module: {
     rules: [
@@ -41,18 +41,15 @@ let config = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: [{ loader: "babel-loader" }],
+        use: [{loader: 'babel-loader'}],
       },
       // Возможность подключать css как модули, чтобы попали в сборку
       // С опцией modules при импорте стиля получаем объект с названиями ccs классов
       {
         test: /\.css$/,
         use: [
-          { loader: MiniCssExtractPlugin.loader, options: {} },
-          {
-            loader: "css-loader",
-            options: { url: true, import: true /*, modules: true*/ },
-          },
+          {loader: MiniCssExtractPlugin.loader, options: {}},
+          {loader: 'css-loader', options: {url: true, import: true/*, modules: true*/}},
         ],
       },
       // // Компиляция less стилей и возможность их подключение как модулей
@@ -106,10 +103,10 @@ let config = {
   },
 };
 
-if (process.env.NODE_ENV === "development") {
-  config.devtool = "inline-source-map";
+if (process.env.NODE_ENV === 'development') {
+  config.devtool = 'inline-source-map';
   config.devServer = {
-    static: path.join(__dirname, "dist"),
+    static: path.join(__dirname, 'dist'),
     port: 8010,
     historyApiFallback: true,
   };

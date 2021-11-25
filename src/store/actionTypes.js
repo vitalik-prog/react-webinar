@@ -1,5 +1,0 @@
-export const actionType = {
-  CREATE_ITEM: "CREATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
-  SELECT_ITEM: "SELECT_ITEM",
-};

@@ -13,3 +13,8 @@
     margin-left: 35px;
     white-space: nowrap;
 }
+.List__empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

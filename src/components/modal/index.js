@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {useCallback, useEffect} from 'react';
 import propTypes from "prop-types";
 import './styles.css';
 
-const Modal = ({active, isContentExist, onClose, children}) => {
+const Modal = ({active, onClose, children}) => {
   console.log('Modal')
+
+  const keyPress = useCallback(e => {
+    if (e.key === 'Escape' && active) {
+      onClose()
+    }
+  }, [active])
+
+  useEffect(() => {
+    document.addEventListener('keydown', keyPress)
+    return () => document.removeEventListener('keydown', keyPress)
+  }, [keyPress])
+
   return (
     <div className={active? "Modal active" : "Modal"} onClick={onClose}>
       <div className={active? "Modal__body active" : "Modal__body"} onClick={e => e.stopPropagation()}>
@@ -11,15 +23,7 @@ const Modal = ({active, isContentExist, onClose, children}) => {
           <h2>Корзина</h2>
           <button onClick={onClose}>Закрыть</button>
         </div>
-        {isContentExist
-          ?
-          (<div>
-            {children}
-          </div>)
-          :
-          (<div className="Modal__empty">
-            <h4>Корзина пуста, добавьте товары</h4>
-          </div>)
+        {children}
         }
       </div>
     </div>

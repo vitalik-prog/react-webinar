@@ -23,8 +23,7 @@ function App({store}) {
     onCreateItem: useCallback(() => store.createItem(), [store]),
     onSelectItem: useCallback((code) => store.selectItem(code), [store]),
     onAddItemToCart: useCallback((code) => store.addItemToCart(code), [store]),
-    onShowModal: useCallback(() => setIsModalShown(true), [isModalShown]),
-    onCloseModal: useCallback(() => setIsModalShown(false), [isModalShown]),
+    onShowModal: useCallback(() => setIsModalShown(!isModalShown), [isModalShown])
   }
 
   const { totalProductsCount, wordDeclination, totalProductsPrice } = useCallback(getTotals(store.getState().cart), [store.getState().cart])
@@ -47,14 +46,13 @@ function App({store}) {
       {isModalShown &&
         <Modal
           active={isModalShown}
-          isContentExist={store.getState().cart.length !== 0}
-          onClose={callbacks.onCloseModal}
+          onClose={callbacks.onShowModal}
         >
           <List items={store.getState().cart}/>
-          <TotalRow
+          {store.getState().cart.length !== 0 && <TotalRow
             totalProductsCount={totalProductsCount}
             totalProductsPrice={totalProductsPrice}
-          />
+          />}
         </Modal>
       }
     </Layout>

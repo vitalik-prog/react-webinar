@@ -5,6 +5,14 @@ import './styles.css';
 
 function List({items, onSelectItem, onAddItemToCart}) {
   console.log('List');
+  if (items.length === 0) {
+    return (
+      <div className="List__empty">
+        <h4>Корзина пуста, добавьте товары</h4>
+      </div>
+    )
+  }
+
   return (
     <div className='List'>{items.map((item, index) =>
       <div className='List__item' key={item.code}>

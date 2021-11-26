@@ -2,19 +2,27 @@ import React from "react";
 import propTypes from 'prop-types';
 import './styles.css';
 
-function Controls({onCreate}){
+function Controls({ onShowModal, totalInfoElement }){
   console.log('Controls');
-  return <div className='Controls'>
-    <button onClick={onCreate}> Добавить</button>
-  </div>
+
+  return (
+    <div className='Controls'>
+      <span className={'Controls__specifications'}>
+        В корзине: <strong>{totalInfoElement}</strong>
+      </span>
+      <button onClick={onShowModal}>Перейти</button>
+    </div>
+  )
 }
 
 Controls.propTypes = {
-  onCreate: propTypes.func.isRequired
+  onShowModal: propTypes.func.isRequired,
+  totalInfoElement: propTypes.element
 }
 
 Controls.defaultProps = {
-  onCreate: () => {}
+  onShowModal: () => {},
+  totalInfoElement: <span> </span>
 }
 
 export default React.memo(Controls);

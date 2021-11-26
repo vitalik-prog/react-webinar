@@ -44,17 +44,19 @@ function App({store}) {
         onSelectItem={callbacks.onSelectItem}
         onAddItemToCart={callbacks.onAddItemToCart}
       />
+      {isModalShown &&
         <Modal
           active={isModalShown}
           isContentExist={store.getState().cart.length !== 0}
           onClose={callbacks.onCloseModal}
         >
-          <List items={store.getState().cart} />
+          <List items={store.getState().cart}/>
           <TotalRow
             totalProductsCount={totalProductsCount}
             totalProductsPrice={totalProductsPrice}
           />
         </Modal>
+      }
     </Layout>
   );
 }

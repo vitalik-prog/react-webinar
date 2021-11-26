@@ -51,7 +51,7 @@ class Store {
     this.setState({
       items: this.state.items.concat({
         code,
-        title: 'Новая запись №'+code
+        title: 'Новая запись №' + code
       })
     });
   }
@@ -73,7 +73,7 @@ class Store {
   selectItem(code) {
     this.setState({
       items: this.state.items.map(item => {
-        if (item.code === code){
+        if (item.code === code) {
           return {
             ...item,
             selected: !item.selected
@@ -81,6 +81,43 @@ class Store {
         }
         return item;
       })
+    });
+  }
+
+  addItemToCart(code) {
+    const isCartEmpty = this.state.cart.length === 0
+    const isProductExistInCart = this.state.cart.some(product => product.code === code)
+    let newCart = []
+
+    if (isCartEmpty) {
+      const productToCart = {...this.state.items.filter(item => item.code === code)[0], count: 1}
+      return this.setState({
+        ...this.state,
+        cart: [productToCart]
+      });
+    }
+
+    if (isProductExistInCart) {
+      newCart = this.state.cart.map(item => {
+        if (item.code === code) {
+          return {
+            ...item,
+            count: item.count + 1
+          }
+        }
+        return item
+      })
+      return this.setState({
+        ...this.state,
+        cart: newCart
+      });
+    }
+
+    newCart = this.state.cart.concat([{...this.state.items.filter(item => item.code === code)[0], count: 1}])
+
+    this.setState({
+      ...this.state,
+      cart: newCart
     });
   }
 }

@@ -1,9 +1,10 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import propTypes from "prop-types";
 import './styles.css';
 
 const Modal = ({active, onClose, children}) => {
   console.log('Modal')
+  const [classes, setClasses] = useState({ overlayClasses: 'Modal', modalBodyClasses: 'Modal__body' })
 
   const keyPress = useCallback(e => {
     if (e.key === 'Escape' && active) {
@@ -18,20 +19,13 @@ const Modal = ({active, onClose, children}) => {
 
   useEffect(() => {
     if (active) {
-      const modalOverlayElement = document.querySelector(".Modal")
-      const modalBodyElement = document.querySelector(".Modal__body")
-      modalOverlayElement.classList.add("active");
-      modalBodyElement.classList.add("active");
-      return () => {
-        modalOverlayElement.classList.remove("active");
-        modalBodyElement.classList.remove("active");
-      }
+      setClasses({ overlayClasses: 'Modal active', modalBodyClasses: 'Modal__body active' })
     }
   }, [active])
 
   return (
-    <div className="Modal" onClick={onClose}>
-      <div className="Modal__body" onClick={e => e.stopPropagation()}>
+    <div className={classes.overlayClasses} onClick={onClose}>
+      <div className={classes.modalBodyClasses} onClick={e => e.stopPropagation()}>
         <div className="Modal__header">
           <h2>Корзина</h2>
           <button onClick={onClose}>Закрыть</button>

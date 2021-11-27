@@ -16,27 +16,39 @@ const Modal = ({active, onClose, children}) => {
     return () => document.removeEventListener('keydown', keyPress)
   }, [keyPress])
 
+  useEffect(() => {
+    if (active) {
+      const modalOverlayElement = document.querySelector(".Modal")
+      const modalBodyElement = document.querySelector(".Modal__body")
+      modalOverlayElement.classList.add("active");
+      modalBodyElement.classList.add("active");
+      return () => {
+        modalOverlayElement.classList.remove("active");
+        modalBodyElement.classList.remove("active");
+      }
+    }
+  }, [active])
+
   return (
-    <div className={active? "Modal active" : "Modal"} onClick={onClose}>
-      <div className={active? "Modal__body active" : "Modal__body"} onClick={e => e.stopPropagation()}>
+    <div className="Modal" onClick={onClose}>
+      <div className="Modal__body" onClick={e => e.stopPropagation()}>
         <div className="Modal__header">
           <h2>Корзина</h2>
           <button onClick={onClose}>Закрыть</button>
         </div>
         {children}
-        }
       </div>
     </div>
   );
 };
 
 Modal.propTypes = {
-  isContentExist: propTypes.bool.isRequired,
+  active: propTypes.bool,
   onClose: propTypes.func.isRequired
 }
 
 Modal.defaultProps = {
-  isContentExist: false,
+  active: false,
   onClose: () => {}
 }
 

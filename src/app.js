@@ -1,7 +1,10 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import Controls from "./components/controls";
 import List from "./components/list";
 import Layout from "./components/layout";
+import Modal from "./components/modal";
+import { getTotals } from "./helpers/get-totals";
+import TotalRow from "./components/total-row";
 
 /**
  * Приложение
@@ -9,19 +12,49 @@ import Layout from "./components/layout";
  */
 function App({store}) {
   console.log('App');
+  const [isModalShown, setIsModalShown] = useState(false)
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    body.style.overflow = isModalShown ? 'hidden' : 'auto';
+  }, [isModalShown])
 
   const callbacks = {
     onCreateItem: useCallback(() => store.createItem(), [store]),
     onSelectItem: useCallback((code) => store.selectItem(code), [store]),
-    onDeleteItem: useCallback((code) => store.deleteItem(code), [store])
+    onAddItemToCart: useCallback((code) => store.addItemToCart(code), [store]),
+    onShowModal: useCallback(() => setIsModalShown(!isModalShown), [isModalShown])
   }
+
+  const { totalProductsCount, wordDeclination, totalProductsPrice } = getTotals(store.getState().cart)
 
   return (
     <Layout head={<h1>Приложение на чистом JS</h1>}>
-      <Controls onCreate={callbacks.onCreateItem}/>
-      <List items={store.getState().items}
-            onSelectItem={callbacks.onSelectItem}
-            onDeleteItem={callbacks.onDeleteItem}/>
+      <Controls
+        onShowModal={callbacks.onShowModal}
+        totalInfoElement={
+          totalProductsCount
+            ? <span>{`${totalProductsCount} ${wordDeclination} / ${Number.parseInt(totalProductsPrice).toLocaleString('ru')}`} &#8381;</span>
+            : <span>пусто</span>
+        }
+      />
+      <List
+        items={store.getState().items}
+        onSelectItem={callbacks.onSelectItem}
+        onAddItemToCart={callbacks.onAddItemToCart}
+      />
+      {isModalShown &&
+        <Modal
+          active={isModalShown}
+          onClose={callbacks.onShowModal}
+        >
+          <List items={store.getState().cart}/>
+          {store.getState().cart.length !== 0 && <TotalRow
+            totalProductsCount={totalProductsCount}
+            totalProductsPrice={totalProductsPrice}
+          />}
+        </Modal>
+      }
     </Layout>
   );
 }

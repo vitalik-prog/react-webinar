@@ -1,0 +1,13 @@
+.Total__row{
+    padding: 20px 20px 20px 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.Total__row_price{
+    margin-left: 50px;
+    margin-right: 18px;
+}
+.Total__row_count{
+    margin-left: 35px;
+}

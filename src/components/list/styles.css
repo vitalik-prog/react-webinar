@@ -9,3 +9,12 @@
 .List__item:first-child{
     border-top: 1px dashed #ccc;
 }
+.Item__count{
+    margin-left: 35px;
+    white-space: nowrap;
+}
+.List__empty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

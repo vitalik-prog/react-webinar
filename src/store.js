@@ -85,35 +85,44 @@ class Store {
   }
 
   addItemToCart(code) {
-    const isCartEmpty = this.state.cart.length === 0
-    const isProductExistInCart = this.state.cart.some(product => product.code === code)
-    let newCart = []
+    // -------------      First version START   -------------- //
+    // let isProductExistInCart = false
+    //
+    // const newCart = this.state.cart.map(product => {
+    //   if (product.code === code) {
+    //     isProductExistInCart = true
+    //     return {
+    //       ...product,
+    //       count: product.count + 1
+    //     }
+    //   }
+    //   return product
+    // })
+    //
+    // if (!isProductExistInCart) {
+    //   const productToCart = {...this.state.items.find(item => item.code === code), count: 1}
+    //   newCart.push(productToCart)
+    // }
+    // -------------      First version END      ------------ //
 
-    if (isCartEmpty) {
-      const productToCart = {...this.state.items.filter(item => item.code === code)[0], count: 1}
-      return this.setState({
-        ...this.state,
-        cart: [productToCart]
-      });
+    // -------------      Second version START   -------------- //
+    let isProductExistInCart = false
+    const newCart = this.state.cart.slice(0)
+
+    let i = 0;
+    while (i <= this.state.cart.length) {
+      if (newCart[i] && newCart[i].code === code) {
+        isProductExistInCart = true
+        newCart[i].count = newCart[i].count + 1
+      }
+
+      if (i === newCart.length && !isProductExistInCart) {
+        const productToCart = {...this.state.items.find(item => item.code === code), count: 1}
+        newCart.push(productToCart)
+      }
+      i++
     }
-
-    if (isProductExistInCart) {
-      newCart = this.state.cart.map(item => {
-        if (item.code === code) {
-          return {
-            ...item,
-            count: item.count + 1
-          }
-        }
-        return item
-      })
-      return this.setState({
-        ...this.state,
-        cart: newCart
-      });
-    }
-
-    newCart = this.state.cart.concat([{...this.state.items.filter(item => item.code === code)[0], count: 1}])
+    // -------------      Second version END      ------------ //
 
     this.setState({
       ...this.state,

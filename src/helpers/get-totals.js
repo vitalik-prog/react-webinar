@@ -5,11 +5,13 @@ export const getTotals = (cart) => {
     return accumulator + product.count;
   }, 0)
 
+  const totalProductsPrice = cart.reduce((accumulator, product) => {
+    return accumulator + (product.price * product.count);
+  }, 0)
+
   return {
     totalProductsCount,
     wordDeclination: plural(totalProductsCount, 'товар', 'товара', 'товаров'),
-    totalProductsPrice: cart.reduce((accumulator, product) => {
-      return accumulator + (product.price * product.count);
-    }, 0)
+    totalProductsPrice
   }
 }

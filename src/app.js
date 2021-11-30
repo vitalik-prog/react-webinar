@@ -3,7 +3,7 @@ import Controls from "./components/controls";
 import List from "./components/list";
 import Layout from "./components/layout";
 import Modal from "./components/modal";
-import { getTotals } from "./helpers/getTotals";
+import { getTotals } from "./helpers/get-totals";
 import TotalRow from "./components/total-row";
 
 /**
@@ -26,7 +26,7 @@ function App({store}) {
     onShowModal: useCallback(() => setIsModalShown(!isModalShown), [isModalShown])
   }
 
-  const { totalProductsCount, wordDeclination, totalProductsPrice } = useCallback(getTotals(store.getState().cart), [store.getState().cart])
+  const { totalProductsCount, wordDeclination, totalProductsPrice } = getTotals(store.getState().cart)
 
   return (
     <Layout head={<h1>Приложение на чистом JS</h1>}>

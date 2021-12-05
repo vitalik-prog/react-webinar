@@ -1,23 +1,16 @@
 import React from 'react';
 import Main from "./main";
 import Basket from "./basket";
+import useStoreState from "../utils/use-store-state";
 
 /**
  * Приложение
  * @param store {Store} Состояние с действиями
  */
 function App({store}) {
+  console.log('App');
 
-  console.log('App', store);
-
-  // Применим внутреннее состояние компонента, чтобы управлять перепендером компонента
-  const [state, setState] = React.useState(store.getState());
-
-  React.useEffect(() => {
-    return store.subscribe(newState => {
-      setState(newState)
-    });
-  }, []);
+  const state = useStoreState(store);
 
   return (
     <>

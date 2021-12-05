@@ -3,12 +3,12 @@ import Item from "../../components/item";
 import Layout from "../../components/layout";
 import BasketSimple from "../../components/basket-simple";
 import List from "../../components/list";
+import useStoreState from "../../utils/use-store-state";
 
 function Main({store}) {
-
   console.log('Main');
 
-  const state = store.getState();
+  const state = useStoreState(store);
 
   const callbacks = {
     addToBasket: useCallback((code) => store.addToBasket(code), [store]),

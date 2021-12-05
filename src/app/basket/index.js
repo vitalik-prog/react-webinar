@@ -3,12 +3,12 @@ import List from "../../components/list";
 import BasketTotal from "../../components/basket-total";
 import LayoutModal from "../../components/layout-modal";
 import ItemBasket from "../../components/item-basket";
+import useStoreState from "../../utils/use-store-state";
 
 function Basket({store}){
-
   console.log('Basket');
 
-  const state = store.getState();
+  const state = useStoreState(store);
 
   const callbacks = {
     closeModal: useCallback(() => store.closeModal(), [store]),

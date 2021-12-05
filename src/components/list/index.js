@@ -3,7 +3,6 @@ import propTypes from 'prop-types';
 import './styles.css';
 
 function List({items, renderItem}) {
-
   return (
     <div className='List'>
       {items.map(item =>

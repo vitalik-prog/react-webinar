@@ -5,7 +5,6 @@ import numberFormat from "../../utils/number-format";
 import './styles.css';
 
 function BasketSimple({sum, amount, onOpen}) {
-
   return (
     <div className='BasketSimple'>
       <span className="BasketSimple__label">В корзине:</span>

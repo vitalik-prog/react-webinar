@@ -4,7 +4,6 @@ import numberFormat from "../../utils/number-format";
 import './styles.css';
 
 function ItemBasket({item}) {
-
   return (
     <div className='ItemBasket'>
       <div className='ItemBasket__number'>{item.code}</div>

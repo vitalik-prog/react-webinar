@@ -143,6 +143,7 @@ class Store {
    */
   openModal(name) {
     this.setState({
+      ...this.state,
       modals: {
         name
       }
@@ -154,6 +155,7 @@ class Store {
    */
   closeModal() {
     this.setState({
+      ...this.state,
       modals: {
         name: null
       }

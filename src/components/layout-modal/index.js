@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './style.css';
 
 function LayoutModal(props) {
-
   return (
     <div className="LayoutModal">
       <div className="LayoutModal__frame">

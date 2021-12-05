@@ -4,7 +4,6 @@ import numberFormat from "../../utils/number-format";
 import './styles.css';
 
 function BasketTotal(props) {
-
   return (
     <div className="BasketTotal">
       <span className="BasketTotal__cell">Итого</span>

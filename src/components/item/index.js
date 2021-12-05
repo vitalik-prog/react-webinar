@@ -4,7 +4,6 @@ import './styles.css';
 import numberFormat from "../../utils/number-format";
 
 function Item({item, onAdd}) {
-
   return (
     <div className='Item'>
       <div className='Item__number'>{item.code}</div>

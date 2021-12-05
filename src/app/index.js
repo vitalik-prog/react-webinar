@@ -8,9 +8,16 @@ import Basket from "./basket";
  */
 function App({store}) {
 
-  console.log('App');
+  console.log('App', store);
 
-  const state = store.getState();
+  // Применим внутреннее состояние компонента, чтобы управлять перепендером компонента
+  const [state, setState] = React.useState(store.getState());
+
+  React.useEffect(() => {
+    return store.subscribe(newState => {
+      setState(newState)
+    });
+  }, []);
 
   return (
     <>

@@ -21,10 +21,4 @@ const store = new Store({
 });
 
 // Сообщаем реакту что и куда рендерить.
-store.subscribe(() => {
-  console.log('index.js');
-  ReactDOM.render(<App store={store}/>, root);
-});
-
-// Сообщаем реакту что и куда рендерить.
 ReactDOM.render(<App store={store}/>, root);

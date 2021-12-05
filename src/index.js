@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Store from './store.js';
-import App from './app.js';
+import App from './app';
 
 const root = document.getElementById("app");
 

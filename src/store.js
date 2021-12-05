@@ -7,6 +7,9 @@ class Store {
         items: [],
         sum: 0,
         amount: 0
+      },
+      modals: {
+        name: null
       }
     }, initState);
     // Подписчики на изменение state
@@ -132,6 +135,29 @@ class Store {
         amount
       }
     })
+  }
+
+  /**
+   * Открыть модалку по её названию
+   * @param name
+   */
+  openModal(name) {
+    this.setState({
+      modals: {
+        name
+      }
+    });
+  }
+
+  /**
+   * Закрыть модалку
+   */
+  closeModal() {
+    this.setState({
+      modals: {
+        name: null
+      }
+    });
   }
 }
 

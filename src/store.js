@@ -96,43 +96,42 @@ class Store {
    * @param code Код товара
    */
   addToBasket(code){
-    let exists = false;
-    let amount = 0;
-    let sum = 0;
+
     // Ищем товар в корзие, чтобы увеличить его количество.
-    // Заодно созадётся новый массив и пересчитывается итог
-    const basketItems = this.state.basket.items.map(item => {
-      // Считаем суммы для текущих позций в корзине
-      amount += item.amount;
-      sum += item.price * item.amount;
+    let exists = false;
+    const items = this.getState().basket.items.map(item => {
       // Искомый товар
-      if (item.code === code){
+      if (item.code === code) {
         exists = true;
-        amount += 1;
-        sum += item.price;
         return {...item, amount: item.amount + 1};
       }
       return item
     });
+
     if (!exists) {
-      // Если товар не был найден в корзине, то добавляем его
+      // Если товар не был найден в корзине, то добавляем его из каталога
       // Поиск товара в каталоге, чтобы его в корзину добавить
-      const item = this.state.items.find(item => item.code === code);
-      basketItems.push({...item, amount: 1});
-      amount += 1;
-      sum += item.price;
+      const item = this.getState().items.find(item => item.code === code);
+      items.push({...item, amount: 1});
+    }
+
+    // Считаем суммы
+    let amount = 0;
+    let sum = 0;
+    for (const item of items){
+      amount += item.amount;
+      sum += item.price * item.amount;
     }
 
     // Установка состояние, basket тоже нужно сделать новым
     this.setState({
       ...this.state,
       basket: {
-        items: basketItems,
-        amount,
-        sum
+        items,
+        sum,
+        amount
       }
     })
-  }
   }
 }
 

@@ -20,7 +20,7 @@ function App({store}) {
   const callbacks = {
     openModal: useCallback(() => setModalVisible(true), [setModalVisible]),
     closeModal: useCallback(() => setModalVisible(false), [setModalVisible]),
-    addToBasket: useCallback((code) => {}, []),
+    addToBasket: useCallback((code) => store.addToBasket(code), [store]),
   }
 
   const renders = {
@@ -33,16 +33,18 @@ function App({store}) {
     }, [])
   }
 
+  const state = store.getState();
+
   return (
     <>
       <Layout head={<h1>Магазин</h1>}>
-        <BasketSimple onOpen={callbacks.openModal} amount={10} sum={8800}/>
-        <List items={store.getState().items} renderItem={renders.item}/>
+        <BasketSimple onOpen={callbacks.openModal} amount={state.basket.amount} sum={state.basket.sum}/>
+        <List items={state.items} renderItem={renders.item}/>
       </Layout>
       {modalVisible &&
         <LayoutModal title={'Корзина'} onClose={callbacks.closeModal}>
-          <List items={store.getState().items} renderItem={renders.itemBasket}/>
-          <BasketTotal amount={90} sum={8800}/>
+          <List items={state.basket.items} renderItem={renders.itemBasket}/>
+          <BasketTotal amount={state.basket.amount} sum={state.basket.sum}/>
         </LayoutModal>
       }
     </>

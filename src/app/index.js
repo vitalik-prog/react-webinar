@@ -1,7 +1,7 @@
 import React from 'react';
 import Main from "./main";
 import Basket from "./basket";
-import useStoreState from "../utils/use-store-state";
+import useSelector from "../utils/use-selector";
 
 /**
  * Приложение
@@ -10,12 +10,14 @@ import useStoreState from "../utils/use-store-state";
 function App({store}) {
   console.log('App');
 
-  const state = useStoreState(store);
+  const select = useSelector(store, (state) => ({
+    name: state.modals.name
+  }));
 
   return (
     <>
       <Main store={store}/>
-      {state.modals.name === 'basket' && <Basket store={store}/>}
+      {select.name === 'basket' && <Basket store={store}/>}
     </>
   );
 }

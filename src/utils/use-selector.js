@@ -1,13 +1,15 @@
 import React, {useEffect} from "react";
 import shallowequal from 'shallowequal';
+import useStore from "./use-store";
 
 /**
  * Хук для выборки данных из store
- * @param store {Store}
  * @param selector {Function}
  * @return {unknown}
  */
-export default function useSelector(store, selector){
+export default function useSelector(selector){
+
+  const store = useStore();
 
   const [state, setState] = React.useState(selector(store.getState()));
 
@@ -18,7 +20,7 @@ export default function useSelector(store, selector){
         setState(result);
       }
     });
-  }, []);
+  }, [state]);
 
   return state;
 }

@@ -6,7 +6,7 @@ function List({items, renderItem}) {
   return (
     <div className='List'>
       {items.map(item =>
-        <div key={item.code} className='List__item'>
+        <div key={item._id} className='List__item'>
           {renderItem(item)}
         </div>
       )}

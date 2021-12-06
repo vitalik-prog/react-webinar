@@ -3,15 +3,21 @@ import List from "../../components/list";
 import BasketTotal from "../../components/basket-total";
 import LayoutModal from "../../components/layout-modal";
 import ItemBasket from "../../components/item-basket";
-import useStoreState from "../../utils/use-store-state";
+import useSelector from "../../utils/use-selector";
+import useStore from "../../utils/use-store";
 
-function Basket({store}){
-  console.log('Basket');
+function Basket(){
 
-  const state = useStoreState(store);
+  const select = useSelector(state => ({
+    items: state.basket.items,
+    sum: state.basket.sum,
+    amount: state.basket.amount
+  }));
+
+  const store = useStore();
 
   const callbacks = {
-    closeModal: useCallback(() => store.closeModal(), [store]),
+    closeModal: useCallback(() => store.modals.close(), [store]),
   }
 
   const renders = {
@@ -22,8 +28,8 @@ function Basket({store}){
 
   return (
     <LayoutModal title={'Корзина'} onClose={callbacks.closeModal}>
-      <List items={state.basket.items} renderItem={renders.itemBasket}/>
-      <BasketTotal amount={state.basket.amount} sum={state.basket.sum}/>
+      <List items={select.items} renderItem={renders.itemBasket}/>
+      <BasketTotal amount={select.amount} sum={select.sum}/>
     </LayoutModal>
   )
 }

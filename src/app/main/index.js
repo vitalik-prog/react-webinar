@@ -1,18 +1,29 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import Item from "../../components/item";
 import Layout from "../../components/layout";
 import BasketSimple from "../../components/basket-simple";
 import List from "../../components/list";
-import useStoreState from "../../utils/use-store-state";
+import useStore from "../../utils/use-store";
+import useSelector from "../../utils/use-selector";
 
-function Main({store}) {
-  console.log('Main');
+function Main() {
 
-  const state = useStoreState(store);
+  const select = useSelector(state => ({
+    items: state.catalog.items,
+    amount: state.basket.amount,
+    sum: state.basket.sum
+  }));
+
+  // Загрузка тестовых данных при первом рендере
+  useEffect(async () => {
+    await store.catalog.load();
+  }, []);
+
+  const store = useStore();
 
   const callbacks = {
-    addToBasket: useCallback((code) => store.addToBasket(code), [store]),
-    openModal: useCallback(() => store.openModal('basket'), [store]),
+    addToBasket: useCallback((_id) => store.basket.add(_id), [store]),
+    openModal: useCallback(() => store.modals.open('basket'), [store]),
   }
 
   const renders = {
@@ -23,8 +34,8 @@ function Main({store}) {
 
   return (
     <Layout head={<h1>Магазин</h1>}>
-      <BasketSimple onOpen={callbacks.openModal} amount={state.basket.amount} sum={state.basket.sum}/>
-      <List items={state.items} renderItem={renders.item}/>
+      <BasketSimple onOpen={callbacks.openModal} amount={select.amount} sum={select.sum}/>
+      <List items={select.items} renderItem={renders.item}/>
     </Layout>
   );
 }

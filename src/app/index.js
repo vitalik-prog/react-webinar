@@ -5,19 +5,17 @@ import useSelector from "../utils/use-selector";
 
 /**
  * Приложение
- * @param store {Store} Состояние с действиями
  */
-function App({store}) {
-  console.log('App');
+function App() {
 
-  const select = useSelector(store, (state) => ({
+  const select = useSelector(state => ({
     name: state.modals.name
   }));
 
   return (
     <>
-      <Main store={store}/>
-      {select.name === 'basket' && <Basket store={store}/>}
+      <Main/>
+      {select.name === 'basket' && <Basket/>}
     </>
   );
 }

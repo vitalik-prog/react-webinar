@@ -16,13 +16,14 @@ function Item() {
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));
-  let { id } = useParams();
+  const { id } = useParams();
+  const store = useStore();
 
   useEffect(async () => {
     await store.item.loadItem(id);
-  }, [id]);
 
-  const store = useStore();
+    return () => store.item.resetState()
+  }, [id]);
 
   const callbacks = {
     addToBasket: useCallback((_id) => store.basket.add(_id), [store]),

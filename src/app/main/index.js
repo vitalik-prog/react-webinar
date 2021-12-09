@@ -36,7 +36,7 @@ function Main() {
 
   const renders = {
     item: useCallback(item => {
-      return <Item item={item} onAdd={callbacks.addToBasket} onSelect={() => navigate(`/item/${item._id}`)}/>
+      return <Item item={item} onAdd={callbacks.addToBasket} onSelect={() => navigate(`/items/${item._id}`)}/>
     }, [callbacks.addToBasket]),
   }
 

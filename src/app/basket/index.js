@@ -24,7 +24,7 @@ function Basket(){
 
   const selectItemByBasket = (id) => {
     callbacks.closeModal()
-    navigate(`/item/${id}`)
+    navigate(`/items/${id}`)
   }
 
   const renders = {

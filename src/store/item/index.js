@@ -32,6 +32,15 @@ class ItemStore extends StoreModule {
     }
   }
 
+  /**
+   * Загрузка одного товара
+   */
+  resetState() {
+    this.setState({
+      ...this.initState(),
+    });
+  }
+
 }
 
 export default ItemStore;

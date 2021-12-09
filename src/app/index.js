@@ -18,7 +18,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path={"/"} element={<Main/>} />
-        <Route path={"/item/:id"} element={<Item />} />
+        <Route path={"/items/:id"} element={<Item />} />
         <Route path={'*'} element={<Navigate replace to="/" />} />} />
       </Routes>
       {select.name === 'basket' && <Basket/>}

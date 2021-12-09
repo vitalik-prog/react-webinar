@@ -1,4 +1,5 @@
 import React, {useCallback} from "react";
+import {useNavigate} from "react-router-dom";
 import List from "../../components/list";
 import BasketTotal from "../../components/basket-total";
 import LayoutModal from "../../components/layout-modal";
@@ -15,14 +16,20 @@ function Basket(){
   }));
 
   const store = useStore();
+  let navigate = useNavigate();
 
   const callbacks = {
     closeModal: useCallback(() => store.modals.close(), [store]),
   }
 
+  const selectItemByBasket = (id) => {
+    callbacks.closeModal()
+    navigate(`/${id}`)
+  }
+
   const renders = {
     itemBasket: useCallback(item => {
-      return <ItemBasket item={item}/>
+      return <ItemBasket item={item} onSelect={() => selectItemByBasket(item._id)} />
     }, [])
   }
 

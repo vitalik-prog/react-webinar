@@ -8,7 +8,7 @@ import * as modules from './store/exports.js';
 const root = document.getElementById("app");
 
 // Состояние приложения
-const store = new Store(modules);
+export const store = new Store(modules);
 
 // Сообщаем реакту что и куда рендерить.
 ReactDOM.render(

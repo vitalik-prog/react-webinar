@@ -50,6 +50,7 @@ body {
 .Item {
   display: flex;
   justify-content: flex-start;
+  cursor: pointer;
 }
 .Item__title {
   width: 100%;

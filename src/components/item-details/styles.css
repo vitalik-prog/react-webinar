@@ -1,0 +1,16 @@
+.ItemDetails {
+  padding: 0 40px;
+  text-align:justify;
+}
+
+.ItemDetails div {
+  margin-bottom: 20px;
+}
+
+.ItemDetails div:first-child {
+  margin-top: 18px;
+}
+
+.ItemDetails__price {
+  font-size: 24px;
+}

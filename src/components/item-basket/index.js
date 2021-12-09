@@ -3,9 +3,9 @@ import propTypes from 'prop-types';
 import numberFormat from "../../utils/number-format";
 import './styles.css';
 
-function ItemBasket({item}) {
+function ItemBasket({item, onSelect}) {
   return (
-    <div className='ItemBasket'>
+    <div onClick={onSelect} className='ItemBasket'>
       <div className='ItemBasket__number'>{item._key}</div>
       <div className='ItemBasket__title'>{item.title}</div>
       <div className='ItemBasket__right'>
@@ -18,10 +18,11 @@ function ItemBasket({item}) {
 
 ItemBasket.propTypes = {
   item: propTypes.object.isRequired,
+  onSelect: propTypes.func
 }
 
 ItemBasket.defaultProps = {
-
+  onSelect: () => {}
 }
 
 export default React.memo(ItemBasket);

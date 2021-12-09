@@ -1,5 +1,4 @@
 import StoreModule from "../module";
-import { store } from '../../index';
 
 class ItemStore extends StoreModule {
 
@@ -9,21 +8,27 @@ class ItemStore extends StoreModule {
   initState() {
     return {
       item: null,
+      loading: false
     };
   }
 
+  /**
+   * Загрузка одного товара
+   */
   async loadItem(id){
     try {
-      store.loaders.setLoaders('item', true)
+      this.setState({
+        ...this.getState(),
+        loading: true
+      });
       const response = await fetch(`/api/v1/articles/${id}?fields=*,maidIn(title,code),category(title)`);
       const json = await response.json();
       this.setState({
         item: json.result,
+        loading: false
       });
     } catch (e) {
       console.log(e)
-    } finally {
-      store.loaders.setLoaders('item', false)
     }
   }
 

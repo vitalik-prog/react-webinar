@@ -86,12 +86,11 @@ class Store {
     return this.get('catalog');
   }
 
+  /**
+   * @return {ItemStore}
+   */
   get item(){
     return this.get('item');
-  }
-
-  get loaders(){
-    return this.get('loaders');
   }
 }
 

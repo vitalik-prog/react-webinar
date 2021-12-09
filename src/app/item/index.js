@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from "react";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Layout from "../../components/layout";
 import BasketSimple from "../../components/basket-simple";
 import useStore from "../../utils/use-store";
@@ -12,7 +12,7 @@ function Item() {
 
   const select = useSelector(state => ({
     item: state.item.item,
-    isLoading: state.loaders,
+    loading: state.item.loading,
     amount: state.basket.amount,
     sum: state.basket.sum,
   }));
@@ -33,7 +33,7 @@ function Item() {
     navbar: useCallback(() => <Navbar />, []),
   }
 
-  if (select.isLoading.name === 'item' && select.isLoading.status) {
+  if (select.loading) {
     return <Layout><Loader /></Layout>
   }
 

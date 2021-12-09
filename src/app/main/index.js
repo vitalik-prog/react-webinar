@@ -7,7 +7,6 @@ import List from "../../components/list";
 import useStore from "../../utils/use-store";
 import useSelector from "../../utils/use-selector";
 import Pagination from "../../components/pagination";
-import {DEFAULT_ITEMS_LIMIT} from "../../constants";
 import Loader from "../../components/loader";
 
 function Main() {
@@ -17,12 +16,13 @@ function Main() {
     sum: state.basket.sum,
     totalItemsCount: state.catalog.totalItemsCount,
     activePage: state.catalog.activePage,
-    isLoading: state.loaders
+    isLoading: state.loaders,
+    loading: state.catalog.loading
   }));
 
   // Загрузка тестовых данных при первом рендере
   useEffect(async () => {
-    await store.catalog.load(DEFAULT_ITEMS_LIMIT, select.activePage);
+    await store.catalog.load(select.activePage);
   }, []);
 
   const store = useStore();
@@ -31,12 +31,12 @@ function Main() {
   const callbacks = {
     addToBasket: useCallback((_id) => {store.basket.add(_id)}, [store]),
     openModal: useCallback(() => store.modals.open('basket'), [store]),
-    handlePageChange: useCallback((pageNumber) => store.catalog.load(DEFAULT_ITEMS_LIMIT, pageNumber), [store]),
+    handlePageChange: useCallback((pageNumber) => store.catalog.load(pageNumber), [store]),
   }
 
   const renders = {
     item: useCallback(item => {
-      return <Item item={item} onAdd={callbacks.addToBasket} onSelect={() => navigate(`/${item._id}`)}/>
+      return <Item item={item} onAdd={callbacks.addToBasket} onSelect={() => navigate(`/item/${item._id}`)}/>
     }, [callbacks.addToBasket]),
   }
 
@@ -47,7 +47,7 @@ function Main() {
         amount={select.amount}
         sum={select.sum}
       />
-      {select.isLoading.name === 'catalog' && select.isLoading.status
+      {select.loading
         ? <Loader />
         : <List
         items={select.items}

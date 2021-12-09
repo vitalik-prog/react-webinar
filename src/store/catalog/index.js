@@ -3,7 +3,6 @@ import {
   ARRAY_DECREASE_INDEX,
   DEFAULT_ITEMS_LIMIT, DEFAULT_ITEMS_SKIP, DEFAULT_PAGES_SKIP,
 } from "../../constants";
-import { store } from '../../index';
 
 class CatalogStore extends StoreModule {
 
@@ -14,15 +13,19 @@ class CatalogStore extends StoreModule {
     return {
       items: [],
       totalItemsCount: 0,
-      activePage: 1
+      activePage: 1,
+      loading: false
     };
   }
 
   /**
    * Загрузка списка товаров
    */
-  async load(limit = DEFAULT_ITEMS_LIMIT, pageNumber){
-    store.loaders.setLoaders('catalog', true)
+  async load(pageNumber, limit = 10){
+    this.setState({
+      ...this.getState(),
+      loading: true
+    });
     let skip = (pageNumber - ARRAY_DECREASE_INDEX) * DEFAULT_ITEMS_LIMIT
     if (!skip) {
       skip = DEFAULT_ITEMS_SKIP
@@ -33,9 +36,9 @@ class CatalogStore extends StoreModule {
       ...this.getState(),
       activePage: pageNumber ? pageNumber : DEFAULT_PAGES_SKIP,
       totalItemsCount: json.result.count,
-      items: json.result.items
+      items: json.result.items,
+      loading: false
     });
-    store.loaders.setLoaders('catalog', false)
   }
 }
 

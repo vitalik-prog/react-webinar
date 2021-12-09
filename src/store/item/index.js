@@ -33,7 +33,7 @@ class ItemStore extends StoreModule {
   }
 
   /**
-   * Загрузка одного товара
+   * Удаление предыдущего состояния
    */
   resetState() {
     this.setState({

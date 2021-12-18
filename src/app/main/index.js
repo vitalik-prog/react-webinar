@@ -5,13 +5,19 @@ import BasketSimple from "../../components/basket-simple";
 import List from "../../components/list";
 import useStore from "../../utils/use-store";
 import useSelector from "../../utils/use-selector";
+import Pagination from "../../components/pagination";
+import Spinner from "../../components/spinner";
 
 function Main() {
 
   const select = useSelector(state => ({
     items: state.catalog.items,
     amount: state.basket.amount,
-    sum: state.basket.sum
+    sum: state.basket.sum,
+    page: state.catalog.params.page,
+    limit: state.catalog.params.limit,
+    count: state.catalog.count,
+    waiting: state.catalog.waiting,
   }));
 
   // Загрузка тестовых данных при первом рендере
@@ -24,6 +30,7 @@ function Main() {
   const callbacks = {
     addToBasket: useCallback((_id) => store.basket.add(_id), [store]),
     openModal: useCallback(() => store.modals.open('basket'), [store]),
+    onPaginate: useCallback(page => store.catalog.load({page}), [store]),
   }
 
   const renders = {
@@ -35,7 +42,15 @@ function Main() {
   return (
     <Layout head={<h1>Магазин</h1>}>
       <BasketSimple onOpen={callbacks.openModal} amount={select.amount} sum={select.sum}/>
-      <List items={select.items} renderItem={renders.item}/>
+      <Spinner active={select.waiting}>
+        <List items={select.items} renderItem={renders.item}/>
+      </Spinner>
+      <Pagination
+        page={select.page}
+        limit={select.limit}
+        count={select.count}
+        onChange={callbacks.onPaginate}
+      />
     </Layout>
   );
 }

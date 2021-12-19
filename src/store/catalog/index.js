@@ -1,4 +1,17 @@
 import StoreModule from "../module";
+import qs from 'qs';
+
+const QS_OPTIONS = {
+  stringify: {
+    addQueryPrefix: true,
+    arrayFormat: 'comma',
+    encode: false
+  },
+  parse: {
+    ignoreQueryPrefix: true,
+    comma: true
+  }
+}
 
 class CatalogStore extends StoreModule {
 
@@ -13,15 +26,49 @@ class CatalogStore extends StoreModule {
         page: 1,
         limit: 10,
         sort: 'key',
+        query: ''
       },
       waiting: true
     };
   }
 
   /**
+   * Инициализация параметров.
+   * Восстановление из query string адреса
+   * @param params
+   * @return {Promise<void>}
+   */
+  async init(params = {}){
+    // Параметры из URl. Их нужно валидирвать, приводить типы и брать толкьо нужные
+    const urlParams = qs.parse(window.location.search, QS_OPTIONS.parse) || {}
+    let validParams = {};
+    if (urlParams.page) validParams.page = Number(urlParams.page) || 1;
+    if (urlParams.limit) validParams.limit = Number(urlParams.limit) || 10;
+    if (urlParams.sort) validParams.sort = urlParams.sort;
+    if (urlParams.query) validParams.query = urlParams.query;
+
+    // Итоговые параметры из начальных, из URL и из переданных явно
+    const newParams = {...this.initState().params, ...validParams, ...params};
+    // Установка параметров и подгрузка данных
+    await this.load(newParams, true);
+  }
+
+  /**
+   * Сброс параметров к начальным
+   * @param params
+   * @return {Promise<void>}
+   */
+  async reset(params = {}){
+    // Итоговые параметры из начальных, из URL и из переданных явно
+    const newParams = {...this.initState().params, ...params};
+    // Установк параметров и подгрузка данных
+    await this.load(newParams);
+  }
+
+  /**
    * Загрузка списка товаров
    */
-  async load(params = {}){
+  async load(params = {}, historyReplace = false){
     const newParams = {...this.getState().params, ...params};
 
     this.setState({
@@ -30,8 +77,10 @@ class CatalogStore extends StoreModule {
       waiting: true
     });
 
+    console.log('load', newParams);
+
     const skip = (newParams.page - 1) * newParams.limit;
-    const response = await fetch(`/api/v1/articles?limit=${newParams.limit}&skip=${skip}&fields=items(*),count&sort=${newParams.sort}`);
+    const response = await fetch(`/api/v1/articles?limit=${newParams.limit}&skip=${skip}&fields=items(*),count&sort=${newParams.sort}&search[query]=${newParams.query}`);
     const json = await response.json();
 
     this.setState({
@@ -40,6 +89,15 @@ class CatalogStore extends StoreModule {
       count: json.result.count,
       waiting: false
     });
+
+    // Запоминаем параметры в URL
+    let queryString = qs.stringify(newParams, QS_OPTIONS.stringify);
+    const url = window.location.pathname + queryString + window.location.hash;
+    if (historyReplace) {
+      window.history.replaceState({}, '', url);
+    } else {
+      window.history.pushState({}, '', url);
+    }
   }
 }
 

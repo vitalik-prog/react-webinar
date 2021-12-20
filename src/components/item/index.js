@@ -2,19 +2,16 @@ import React from 'react';
 import propTypes from 'prop-types';
 import './styles.css';
 import numberFormat from "../../utils/number-format";
+import {Link} from "react-router-dom";
 
-function Item({item, onAdd, onSelect}) {
-  const handleAddToBasket = (e) => {
-    e.stopPropagation();
-    onAdd(item._id)
-  }
+function Item({item, onAdd, link}) {
   return (
-    <div className='Item' onClick={onSelect}>
+    <div className='Item'>
       <div className='Item__number'>{item._key}</div>
-      <div className='Item__title'>{item.title}</div>
+      <div className='Item__title'><Link to={link}>{item.title}</Link></div>
       <div className='Item__right'>
         <div className='Item__price'>{numberFormat(item.price)} ₽</div>
-        <button onClick={handleAddToBasket}>Добавить</button>
+        <button onClick={() => onAdd(item._id)}>Добавить</button>
       </div>
     </div>
   )
@@ -23,12 +20,12 @@ function Item({item, onAdd, onSelect}) {
 Item.propTypes = {
   item: propTypes.object.isRequired,
   onAdd: propTypes.func,
-  onSelect: propTypes.func,
+  link: propTypes.string,
 }
 
 Item.defaultProps = {
   onAdd: () => {},
-  onSelect: () => {},
+  link: ''
 }
 
 export default React.memo(Item);

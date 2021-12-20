@@ -1,22 +1,30 @@
-.Pagination {
-  padding: 21px;
+.Pagination{
   display: flex;
+  list-style: none;
   justify-content: flex-end;
+  padding: 20px;
+  font-size: 18px;
 }
-.Pagination button {
-  padding: 1px;
-  min-width: 15px;
-  min-height: 20px;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
+
+.Pagination-item{
+  display: block;
+  padding: 2px 4px 3px 2px;
+  margin: 0 2px;
   cursor: pointer;
 }
-.Pagination button:hover {
-  background-color: #E1E1E1;
+
+.Pagination-item:hover{
+  background: #E1E1E1;
 }
-.Pagination button.active {
-  background-color: black;
-  color: white;
+
+.Pagination-item_active,
+.Pagination-item_active:hover{
+  background: #000;
+  color: #fff;
+}
+
+.Pagination-item_split,
+.Pagination-item_split:hover{
+  background: transparent;
+  cursor: default;
 }

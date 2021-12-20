@@ -17,15 +17,27 @@ class ArticleStore extends StoreModule {
    */
   async load(id){
 
-    const response = await fetch(`/api/v1/articles/${id}?fields=*,maidIn(title,code),category(title)`);
-    const json = await response.json();
-    if (json.error) throw new Error(json.error);
-
     this.updateState({
-      data: json.result,
+      waiting: true,
+      data: {}
     });
 
-    // return??
+    try {
+      const response = await fetch(`/api/v1/articles/${id}?fields=*,maidIn(title,code),category(title)`);
+      const json = await response.json();
+      if (json.error) throw new Error(json.error);
+
+      this.updateState({
+        data: json.result,
+        waiting: false
+      });
+
+    } catch (e){
+      this.updateState({
+        data: {},
+        waiting: false
+      });
+    }
   }
 }
 

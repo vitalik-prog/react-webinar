@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import Layout from "../../components/layout";
 import useStore from "../../utils/use-store";
 import useSelector from "../../utils/use-selector";
@@ -15,10 +15,8 @@ function Article() {
   const params = useParams();
 
   // Начальная загрузка
-  useEffect(() => {
-
-    store.article.load(params.id);
-
+  useInit(async () => {
+    await store.get('article').load(params.id);
   }, [params.id]);
 
   const select = useSelector(state => ({

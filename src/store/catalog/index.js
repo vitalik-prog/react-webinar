@@ -77,8 +77,6 @@ class CatalogStore extends StoreModule {
       waiting: true
     });
 
-    console.log('load', newParams);
-
     const skip = (newParams.page - 1) * newParams.limit;
     const response = await fetch(`/api/v1/articles?limit=${newParams.limit}&skip=${skip}&fields=items(*),count&sort=${newParams.sort}&search[query]=${newParams.query}`);
     const json = await response.json();

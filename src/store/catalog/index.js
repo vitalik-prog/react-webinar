@@ -38,7 +38,7 @@ class CatalogStore extends StoreModule {
    * @param params
    * @return {Promise<void>}
    */
-  async init(params = {}){
+  async initParams(params = {}){
     // Параметры из URl. Их нужно валидирвать, приводить типы и брать толкьо нужные
     const urlParams = qs.parse(window.location.search, QS_OPTIONS.parse) || {}
     let validParams = {};
@@ -50,7 +50,7 @@ class CatalogStore extends StoreModule {
     // Итоговые параметры из начальных, из URL и из переданных явно
     const newParams = {...this.initState().params, ...validParams, ...params};
     // Установка параметров и подгрузка данных
-    await this.load(newParams, true);
+    await this.setParams(newParams, true);
   }
 
   /**
@@ -58,17 +58,17 @@ class CatalogStore extends StoreModule {
    * @param params
    * @return {Promise<void>}
    */
-  async reset(params = {}){
+  async resetParams(params = {}){
     // Итоговые параметры из начальных, из URL и из переданных явно
     const newParams = {...this.initState().params, ...params};
     // Установк параметров и подгрузка данных
-    await this.load(newParams);
+    await this.setParams(newParams);
   }
 
   /**
    * Загрузка списка товаров
    */
-  async load(params = {}, historyReplace = false){
+  async setParams(params = {}, historyReplace = false){
     const newParams = {...this.getState().params, ...params};
 
     this.setState({

@@ -20,7 +20,7 @@ function CatalogList() {
 
   const callbacks = {
     addToBasket: useCallback((_id) => store.basket.add(_id), [store]),
-    onPaginate: useCallback(page => store.catalog.load({page}), [store]),
+    onPaginate: useCallback(page => store.catalog.setParams({page}), [store]),
   }
 
   const renders = {

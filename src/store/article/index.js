@@ -70,10 +70,12 @@ class ArticleStore extends StoreModule {
         return
       }
 
+      const { _id } = response.result
       this.updateState({
         data: response.result,
         validationErrors: {}
       });
+      return _id
     } catch (e) {
       console.log(e)
     } finally {

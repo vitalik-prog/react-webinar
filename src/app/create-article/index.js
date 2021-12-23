@@ -37,10 +37,11 @@ const CreateArticle = () => {
 
   const callbacks = {
     onArticleCreate: useCallback(async (article) => {
-      await store.get('article').create(article)
-      console.log(select.article)
-      // navigate('/')
-    }, [store]),
+      const id = await store.get('article').create(article)
+      if (id) {
+        navigate(`/articles/${id}`)
+      }
+    }, [store, select.article]),
   }
 
   // Опции для полей

@@ -22,7 +22,19 @@ const EditArticle = () => {
   }));
 
   //Начальная загрузка
-  useInit(async () => {
+  // useInit(async () => {
+  //   if (Object.keys(select.article).length === 0) {
+  //     await store.get('article').load(params.articleId);
+  //   }
+  //   if (Object.keys(select.countries).length === 0) {
+  //     await store.get('article').getCountries();
+  //   }
+  //   if (!select.categories.length) {
+  //     await store.categories.getCategories();
+  //   }
+  // }, [params.articleId]);
+
+  useEffect(async () => {
     if (Object.keys(select.article).length === 0) {
       await store.get('article').load(params.articleId);
     }
@@ -32,9 +44,6 @@ const EditArticle = () => {
     if (!select.categories.length) {
       await store.categories.getCategories();
     }
-  }, [params.articleId]);
-
-  useEffect(() => {
     return () => store.get('article').resetErrors();
   }, [])
 

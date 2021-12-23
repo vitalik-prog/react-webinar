@@ -22,16 +22,23 @@ const CreateArticle = () => {
   }));
 
   //Начальная загрузка
-  useInit(async () => {
+  // useInit(async () => {
+  //   if (Object.keys(select.countries).length === 0) {
+  //     await store.get('article').getCountries();
+  //   }
+  //   if (!select.categories.length) {
+  //     await store.categories.getCategories();
+  //   }
+  // }, []);
+
+  useEffect(async () => {
     if (Object.keys(select.countries).length === 0) {
       await store.get('article').getCountries();
     }
     if (!select.categories.length) {
       await store.categories.getCategories();
     }
-  }, []);
 
-  useEffect(() => {
     return () => store.get('article').resetErrors();
   }, [])
 

@@ -33,7 +33,6 @@ const CreateArticle = () => {
   const callbacks = {
     onArticleCreate: useCallback((article) => {
       store.get('article').create(article)
-      navigate('/')
     }, [store]),
   }
 

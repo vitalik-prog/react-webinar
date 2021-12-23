@@ -50,6 +50,7 @@ class ArticleStore extends StoreModule {
    */
   async create(article) {
     this.updateState({
+      data: {},
       waiting: true,
       validationErrors: {}
     });
@@ -132,6 +133,15 @@ class ArticleStore extends StoreModule {
     } catch (e) {
       console.log(e)
     }
+  }
+
+  /**
+   * Сброс ошибок
+   */
+  async resetErrors() {
+    this.updateState({
+      validationErrors: {}
+    });
   }
 
   /**

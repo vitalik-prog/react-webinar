@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {useNavigate} from "react-router-dom";
 import Header from "../../containers/header";
 import useSelector from "../../utils/use-selector";
@@ -13,6 +13,7 @@ const CreateArticle = () => {
   const navigate = useNavigate()
 
   const select = useSelector(state => ({
+    article: state.article.data,
     countries: state.article.countries,
     categories: state.categories.categories,
     validationErrors: state.article.validationErrors,
@@ -30,20 +31,26 @@ const CreateArticle = () => {
     }
   }, []);
 
+  useEffect(() => {
+    return () => store.get('article').resetErrors();
+  }, [])
+
   const callbacks = {
-    onArticleCreate: useCallback((article) => {
-      store.get('article').create(article)
+    onArticleCreate: useCallback(async (article) => {
+      await store.get('article').create(article)
+      console.log(select.article)
+      // navigate('/')
     }, [store]),
   }
 
   // Опции для полей
   const options = {
     countries: useMemo(() => ([
-      {value:'', title: '  -'},
+      {value: '', title: '  -'},
       ...select.countries
     ]), [select.countries]),
     categories: useMemo(() => ([
-      {value:'', title: '  -'},
+      {value: '', title: '  -'},
       ...select.categories
     ]), [select.categories]),
   }

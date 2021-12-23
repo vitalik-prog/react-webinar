@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {useParams} from 'react-router-dom'
 import Header from "../../containers/header";
 import useSelector from "../../utils/use-selector";
@@ -33,6 +33,10 @@ const EditArticle = () => {
       await store.categories.getCategories();
     }
   }, [params.articleId]);
+
+  useEffect(() => {
+    return () => store.get('article').resetErrors();
+  }, [])
 
   const callbacks = {
     onArticleUpdate: useCallback((article) => store.get('article').update(article), [store]),

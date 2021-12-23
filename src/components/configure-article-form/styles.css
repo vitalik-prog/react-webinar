@@ -1,0 +1,28 @@
+.Form {
+  display: flex;
+  flex-direction: column;
+  padding: 0 35px;
+}
+.Form label {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+.Form input {
+  line-height: 1.7rem;
+}
+.Form select {
+  padding: 7px 0;
+}
+input[name="title"], select[name="maidIn"] {
+  width: 40%;
+}
+select[name="category"] {
+  width: 23%;
+}
+input[name="edition"], input[name="price"] {
+  width: 30%;
+}
+.Form button {
+  width: 12%;
+  margin-top: 20px;
+}

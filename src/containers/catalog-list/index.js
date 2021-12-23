@@ -13,7 +13,8 @@ function CatalogList() {
     page: state.catalog.params.page,
     limit: state.catalog.params.limit,
     count: state.catalog.count,
-    waiting: state.catalog.waiting,
+    waitingItems: state.catalog.waiting,
+    waitingCategories: state.categories.waiting,
   }));
 
   const store = useStore();
@@ -29,9 +30,13 @@ function CatalogList() {
     }, [callbacks.addToBasket]),
   }
 
+  if (select.waitingCategories || select.waitingItems && !select.items.length) {
+    return <h1 style={{ textAlign: "center" }}>Loading...</h1>
+  }
+
   return (
     <>
-      <Spinner active={select.waiting}>
+      <Spinner active={select.waitingItems}>
         <List items={select.items} renderItem={renders.item}/>
       </Spinner>
       <Pagination

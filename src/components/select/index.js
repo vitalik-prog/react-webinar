@@ -7,15 +7,14 @@ function Select(props){
 
   // CSS классы по БЭМ
   const className = cn('Select');
-
   const onSelect = useCallback((e) => {
-    props.onChange(e.target.value);
+    props.onChange(e);
   }, [props.onChange])
 
   return (
-    <select className={className()} onChange={onSelect} value={props.value}>
-      {props.options.map(item => (
-        <option key={item.value} value={item.value}>{item.title}</option>
+    <select name={props.name} className={className()} onChange={onSelect} value={props.value}>
+      {props.options.map((item, index) => (
+        <option key={index} value={item.value}>{item.title}</option>
       ))}
     </select>
   )
@@ -24,12 +23,14 @@ function Select(props){
 Select.propTypes = {
   options: propTypes.arrayOf(propTypes.object).isRequired,
   value: propTypes.any,
-  onChange: propTypes.func
+  onChange: propTypes.func,
+  name: propTypes.string
 }
 
 Select.defaultProps = {
   onChange: () => {
-  }
+  },
+  name: 'select'
 }
 
 export default React.memo(Select);

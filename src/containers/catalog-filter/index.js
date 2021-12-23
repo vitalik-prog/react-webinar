@@ -12,6 +12,8 @@ function CatalogFilter() {
   const select = useSelector(state => ({
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
+    categories: state.categories.categories,
+    activeCategory: state.catalog.params.categoryId
   }));
 
   // Опции для полей
@@ -21,17 +23,23 @@ function CatalogFilter() {
       {value:'title.ru', title: 'По именованию'},
       {value:'-price', title: 'Сначала дорогие'},
       {value:'edition', title: 'Древние'},
-    ]), [])
+    ]), []),
+    filterByCategories: useMemo(() => ([
+      {value:'all', title: 'Все'},
+      ...select.categories
+    ]), [select.activeCategory, select.categories]),
   }
 
   const callbacks = {
-    onSort: useCallback(sort => store.catalog.setParams({sort}), [store]),
+    onSort: useCallback(event => store.catalog.setParams({sort: event.target.value}), [store]),
     onSearch: useCallback(query => store.catalog.setParams({query, page: 1}), [store]),
-    onReset: useCallback(() => store.catalog.resetParams(), [store])
+    onReset: useCallback(() => store.catalog.resetParams(), [store]),
+    onFilter: useCallback(event => store.catalog.setParams({categoryId: event.target.value}), [store]),
   }
 
   return (
     <LayoutTools>
+      <Select onChange={callbacks.onFilter} value={select.activeCategory} options={options.filterByCategories}/>
       <Input onChange={callbacks.onSearch} value={select.query} placeholder={'Поиск'} theme="big"/>
       <label>Сортировка:</label>
       <Select onChange={callbacks.onSort} value={select.sort} options={options.sort}/>

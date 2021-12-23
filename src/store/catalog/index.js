@@ -26,9 +26,10 @@ class CatalogStore extends StoreModule {
         page: 1,
         limit: 10,
         sort: 'key',
-        query: ''
+        query: '',
+        categoryId: 'all'
       },
-      waiting: true
+      waiting: true,
     };
   }
 
@@ -42,10 +43,16 @@ class CatalogStore extends StoreModule {
     // Параметры из URl. Их нужно валидирвать, приводить типы и брать толкьо нужные
     const urlParams = qs.parse(window.location.search, QS_OPTIONS.parse) || {}
     let validParams = {};
-    if (urlParams.page) validParams.page = Number(urlParams.page) || 1;
+
+    if (urlParams.page && urlParams.categoryId === 'all') {
+      validParams.page = Number(urlParams.page) || 1
+    } else {
+      validParams.page = 1
+    }
     if (urlParams.limit) validParams.limit = Number(urlParams.limit) || 10;
     if (urlParams.sort) validParams.sort = urlParams.sort;
     if (urlParams.query) validParams.query = urlParams.query;
+    if (urlParams.categoryId) validParams.categoryId = urlParams.categoryId
 
     // Итоговые параметры из начальных, из URL и из переданных явно
     const newParams = {...this.initState().params, ...validParams, ...params};
@@ -71,14 +78,17 @@ class CatalogStore extends StoreModule {
   async setParams(params = {}, historyReplace = false){
     const newParams = {...this.getState().params, ...params};
 
+    const categoryParam = newParams.categoryId && newParams.categoryId !== 'all' ? `&search[category]=${newParams.categoryId}` : ''
+    const prevCategoryId = this.getState().params.categoryId
+    const skip = prevCategoryId === newParams.categoryId ? (newParams.page - 1) * newParams.limit : 0;
+
     this.setState({
       ...this.getState(),
       params: newParams,
       waiting: true
     });
 
-    const skip = (newParams.page - 1) * newParams.limit;
-    const response = await fetch(`/api/v1/articles?limit=${newParams.limit}&skip=${skip}&fields=items(*),count&sort=${newParams.sort}&search[query]=${newParams.query}`);
+    const response = await fetch(`/api/v1/articles?limit=${newParams.limit}&skip=${skip}&fields=items(*),count&sort=${newParams.sort}&search[query]=${newParams.query}` + categoryParam);
     const json = await response.json();
 
     this.setState({

@@ -87,11 +87,12 @@ class Store {
   }
 
   /**
-   * @return {ItemStore}
+   * @return {CategoriesStore}
    */
-  get item(){
-    return this.get('item');
+  get categories(){
+    return this.get('categories');
   }
+
 }
 
 export default Store;

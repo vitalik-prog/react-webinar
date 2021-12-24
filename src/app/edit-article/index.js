@@ -22,30 +22,17 @@ const EditArticle = () => {
   }));
 
   //Начальная загрузка
-  // useInit(async () => {
-  //   if (Object.keys(select.article).length === 0) {
-  //     await store.get('article').load(params.articleId);
-  //   }
-  //   if (Object.keys(select.countries).length === 0) {
-  //     await store.get('article').getCountries();
-  //   }
-  //   if (!select.categories.length) {
-  //     await store.categories.getCategories();
-  //   }
-  // }, [params.articleId]);
-
-  useEffect(async () => {
-    if (Object.keys(select.article).length === 0) {
+  useInit(async () => {
+    if (!Object.keys(select.article).length) {
       await store.get('article').load(params.articleId);
     }
-    if (Object.keys(select.countries).length === 0) {
+    if (!Object.keys(select.countries).length) {
       await store.get('article').getCountries();
     }
     if (!select.categories.length) {
       await store.categories.getCategories();
     }
-    return () => store.get('article').resetErrors();
-  }, [])
+  }, []);
 
   const callbacks = {
     onArticleUpdate: useCallback((article) => store.get('article').update(article), [store]),

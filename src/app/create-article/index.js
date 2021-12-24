@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {useNavigate} from "react-router-dom";
 import Header from "../../containers/header";
 import useSelector from "../../utils/use-selector";
@@ -22,25 +22,14 @@ const CreateArticle = () => {
   }));
 
   //Начальная загрузка
-  // useInit(async () => {
-  //   if (Object.keys(select.countries).length === 0) {
-  //     await store.get('article').getCountries();
-  //   }
-  //   if (!select.categories.length) {
-  //     await store.categories.getCategories();
-  //   }
-  // }, []);
-
-  useEffect(async () => {
-    if (Object.keys(select.countries).length === 0) {
+  useInit(async () => {
+    if (!Object.keys(select.countries).length) {
       await store.get('article').getCountries();
     }
     if (!select.categories.length) {
       await store.categories.getCategories();
     }
-
-    return () => store.get('article').resetErrors();
-  }, [])
+  }, [], {backForward: true});
 
   const callbacks = {
     onArticleCreate: useCallback(async (article) => {

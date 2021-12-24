@@ -32,7 +32,7 @@ const EditArticle = () => {
     if (!select.categories.length) {
       await store.categories.getCategories();
     }
-  }, []);
+  }, [params.articleId], {backForward: true});
 
   const callbacks = {
     onArticleUpdate: useCallback((article) => store.get('article').update(article), [store]),

@@ -18,7 +18,7 @@ function Article() {
   // Начальная загрузка
   useInit(async () => {
     await store.get('article').load(params.id);
-  }, [params.id]);
+  }, [params.id], {backForward: true});
 
   const select = useSelector(state => ({
     article: state.article.data,

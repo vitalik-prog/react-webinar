@@ -1,8 +1,11 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import propTypes from "prop-types";
 import './styles.css';
 import ErrorMessages from "../error-messages";
 import Select from "../select";
+import {cn} from "@bem-react/classname";
+import Input from "../input";
+import Textarea from "../textarea";
 
 const ConfigureArticleForm = (props) => {
   const [formData, setFormData] = useState({
@@ -35,7 +38,8 @@ const ConfigureArticleForm = (props) => {
       edition: props.article.edition ?? '',
       price: props.article.price ?? ''
     })
-  }, [props.article])
+    setFormErrors(props.validationErrors)
+  }, [props.article, props.validationErrors])
 
   const [formErrors, setFormErrors] = useState(props.validationErrors)
 
@@ -44,66 +48,83 @@ const ConfigureArticleForm = (props) => {
     props.onSubmit(formData)
   }
 
-  const handleFormChange = (event) => {
-    if (event.target.name === 'category' || event.target.name === 'maidIn') {
+  const onHandleChange = formItem => {
+    return (value) => {
       setFormData({
         ...formData,
-        [event.target.name]: {
-          _id: event.target.value
-        }
+        [formItem]: value
       })
+
       setFormErrors({
         ...formErrors,
-        [event.target.name]: []
-      })
-    } else {
-      setFormData({
-        ...formData,
-        [event.target.name]: event.target.value
-      })
-      setFormErrors({
-        ...formErrors,
-        [event.target.name]: []
+        [formItem]: []
       })
     }
-  }
+  };
+
+  const onHandleSelect = formItem => {
+    return (e) => {
+      setFormData({
+        ...formData,
+        [formItem]: {
+          _id: e.target.value
+        }
+      })
+
+      setFormErrors({
+        ...formErrors,
+        [formItem]: []
+      })
+    }
+  };
+
+  const className = cn('Form');
 
   return (
-    <form className='Form' onSubmit={handleSubmit}>
+    <form className={className()} onSubmit={handleSubmit}>
 
-      <label>Название</label>
-      <input type="text" name="title" value={formData.title} onChange={handleFormChange}/>
+      <label>
+        Название
+        <Input value={formData.title} onChange={onHandleChange('title')} type={'text'} placeholder={'Title'} />
+      </label>
       <ErrorMessages errors={formErrors.title} />
 
-      <label>Описание</label>
-      <textarea name="description" rows={5} value={formData.description}
-                onChange={handleFormChange}/>
+      <label>
+        Описание
+        <Textarea value={formData.description} onChange={onHandleChange('description')} />
+      </label>
       <ErrorMessages errors={formErrors.description} />
 
-      <label>Страна производитель</label>
-      <Select
-        onChange={handleFormChange}
-        value={formData.maidIn._id}
-        options={props.countries}
-        name={'maidIn'}
-      />
+      <label>
+        Страна производитель
+        <Select
+          onChange={onHandleSelect('maidIn')}
+          value={formData.maidIn._id}
+          options={props.countries}
+        />
+      </label>
       <ErrorMessages errors={formErrors.maidIn} />
 
-      <label>Категория</label>
-      <Select
-        onChange={handleFormChange}
-        value={formData.category._id}
-        options={props.categories}
-        name={'category'}
-      />
+      <label>
+        Категория
+        <Select
+          onChange={onHandleSelect('category')}
+          value={formData.category._id}
+          options={props.categories}
+        />
+      </label>
       <ErrorMessages errors={formErrors.category} />
 
-      <label>Год выпуска</label>
-      <input type="text" name="edition" value={formData.edition} onChange={handleFormChange}/>
+      <label>
+        Год выпуска
+        <Input value={formData.edition} onChange={onHandleChange('edition')} type={'text'} placeholder={'Edition'} />
+      </label>
       <ErrorMessages errors={formErrors.edition} />
 
-      <label>Цена (₽)</label>
-      <input type="text" name="price" value={formData.price} onChange={handleFormChange}/>
+      <label>
+        Цена (₽)
+        <Input value={formData.price} onChange={onHandleChange('price')} type={'text'} placeholder={'Price'} />
+      </label>
       <ErrorMessages errors={formErrors.price} />
 
       <button disabled={props.isSubmitDisabled} type='submit'>Сохранить</button>

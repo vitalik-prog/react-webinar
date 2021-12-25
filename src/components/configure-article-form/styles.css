@@ -4,22 +4,24 @@
   padding: 0 35px;
 }
 .Form label {
-  margin-bottom: 5px;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
-.Form input {
-  line-height: 1.7rem;
-}
+.Form input,
+.Form textarea,
 .Form select {
-  padding: 7px 0;
+  margin-top: 5px;
 }
-input[name="title"], select[name="maidIn"] {
+.Form label:nth-child(1),
+.Form label:nth-child(3) {
   width: 40%;
 }
-select[name="category"] {
+.Form label:nth-child(4) {
   width: 23%;
 }
-input[name="edition"], input[name="price"] {
+.Form label:nth-child(5),
+.Form label:nth-child(6) {
   width: 30%;
 }
 .Form button {

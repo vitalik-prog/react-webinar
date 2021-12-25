@@ -14,25 +14,26 @@ const EditArticle = () => {
 
   const select = useSelector(state => ({
     article: state.article.data,
-    countries: state.article.countries,
+    countries: state.countries.countries,
     categories: state.categories.categories,
     validationErrors: state.article.validationErrors,
     waitingArticle: state.article.waiting,
     waitingCategories: state.categories.waiting,
+    waitingCountries: state.countries.waiting,
   }));
 
   //Начальная загрузка
-  useInit(async () => {
-    if (!Object.keys(select.article).length) {
-      await store.get('article').load(params.articleId);
-    }
-    if (!Object.keys(select.countries).length) {
-      await store.get('article').getCountries();
-    }
-    if (!select.categories.length) {
-      await store.categories.getCategories();
-    }
-  }, [params.articleId], {backForward: true});
+  useInit(() => {
+    Promise.all([
+      store.get('article').load(params.articleId),
+      store.countries.load(),
+      store.categories.load()
+    ]).then();
+  }, [params.articleId]);
+
+  useEffect(() => {
+    return () => store.get('article').resetErrors()
+  }, [])
 
   const callbacks = {
     onArticleUpdate: useCallback((article) => store.get('article').update(article), [store]),
@@ -41,7 +42,7 @@ const EditArticle = () => {
   return (
     <Layout head={<h1>{select.article.title}</h1>}>
       <Header/>
-      <Spinner active={select.waitingArticle || select.waitingCategories}>
+      <Spinner active={select.waitingArticle || select.waitingCategories || select.waitingCountries}>
         <ConfigureArticleForm
           article={select.article}
           countries={select.countries}

@@ -15,11 +15,7 @@ export default function useInit(callback, inputs = [], options = {backForward: f
   // компонент об изменениях, поэтому хук можно явно подписать на событие изменения истории
   // браузера (если нужно отреагировать на изменения query-параметров при переходе по истории)
   useEffect(() => {
-    if (!last.current || !equal(last.current, inputs)){
-      last.current = inputs;
-      callback();
-    }
-
+    callback();
     if (options.backForward) {
       window.addEventListener('popstate', callback);
       return () => {

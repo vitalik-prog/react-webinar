@@ -4,16 +4,24 @@
   padding: 0 35px;
 }
 .Form label {
-  margin-bottom: 5px;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
-.Form-title, .maidIn select {
+.Form input,
+.Form textarea,
+.Form select {
+  margin-top: 5px;
+}
+.Form label:nth-child(1),
+.Form label:nth-child(3) {
   width: 40%;
 }
-.category select {
+.Form label:nth-child(4) {
   width: 23%;
 }
-.Form-edition, .Form-price {
+.Form label:nth-child(5),
+.Form label:nth-child(6) {
   width: 30%;
 }
 .Form button {

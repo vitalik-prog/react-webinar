@@ -5,6 +5,7 @@ import ErrorMessages from "../error-messages";
 import Select from "../select";
 import {cn} from "@bem-react/classname";
 import Input from "../input";
+import Textarea from "../textarea";
 
 const ConfigureArticleForm = (props) => {
   const [formData, setFormData] = useState({
@@ -47,21 +48,11 @@ const ConfigureArticleForm = (props) => {
     props.onSubmit(formData)
   }
 
-  const onHandleChange = useCallback(formItem => {
-    return (e) => {
-      if (formItem === 'category' || formItem === 'maidIn') {
-        setFormData({
-          ...formData,
-          [formItem]: {
-            _id: e.target.value
-          }
-        })
-        return
-      }
-
+  const onHandleChange = formItem => {
+    return (value) => {
       setFormData({
         ...formData,
-        [formItem]: e.target.value
+        [formItem]: value
       })
 
       setFormErrors({
@@ -69,48 +60,71 @@ const ConfigureArticleForm = (props) => {
         [formItem]: []
       })
     }
-  }, [setFormData, setFormErrors]);
+  };
+
+  const onHandleSelect = formItem => {
+    return (e) => {
+      setFormData({
+        ...formData,
+        [formItem]: {
+          _id: e.target.value
+        }
+      })
+
+      setFormErrors({
+        ...formErrors,
+        [formItem]: []
+      })
+    }
+  };
 
   const className = cn('Form');
 
   return (
     <form className={className()} onSubmit={handleSubmit}>
 
-      <label>Название</label>
-      <Input value={formData.title} onChange={onHandleChange('title')} type={'text'} placeholder={'Title'} />
-      {/*<input type="text" className={className("title")} value={formData.title} onChange={onHandleChange('title')}/>*/}
+      <label>
+        Название
+        <Input value={formData.title} onChange={onHandleChange('title')} type={'text'} placeholder={'Title'} />
+      </label>
       <ErrorMessages errors={formErrors.title} />
 
-      <label>Описание</label>
-      <textarea rows={5} value={formData.description} onChange={onHandleChange('description')}/>
+      <label>
+        Описание
+        <Textarea value={formData.description} onChange={onHandleChange('description')} />
+      </label>
       <ErrorMessages errors={formErrors.description} />
 
-      <label>Страна производитель</label>
-      <div className={'maidIn'}>
+      <label>
+        Страна производитель
         <Select
-          onChange={onHandleChange('maidIn')}
+          onChange={onHandleSelect('maidIn')}
           value={formData.maidIn._id}
           options={props.countries}
         />
-      </div>
+      </label>
       <ErrorMessages errors={formErrors.maidIn} />
 
-      <label>Категория</label>
-      <div className={'category'}>
+      <label>
+        Категория
         <Select
-          onChange={onHandleChange('category')}
+          onChange={onHandleSelect('category')}
           value={formData.category._id}
           options={props.categories}
         />
-      </div>
+      </label>
       <ErrorMessages errors={formErrors.category} />
 
-      <label>Год выпуска</label>
-      <input type="text" className={className('edition')} value={formData.edition} onChange={onHandleChange('edition')}/>
+      <label>
+        Год выпуска
+        <Input value={formData.edition} onChange={onHandleChange('edition')} type={'text'} placeholder={'Edition'} />
+      </label>
       <ErrorMessages errors={formErrors.edition} />
 
-      <label>Цена (₽)</label>
-      <input type="text" className={className('price')} value={formData.price} onChange={onHandleChange('price')}/>
+      <label>
+        Цена (₽)
+        <Input value={formData.price} onChange={onHandleChange('price')} type={'text'} placeholder={'Price'} />
+      </label>
       <ErrorMessages errors={formErrors.price} />
 
       <button disabled={props.isSubmitDisabled} type='submit'>Сохранить</button>

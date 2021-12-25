@@ -38,7 +38,7 @@ function Input(props) {
 }
 
 Input.propTypes = {
-  value: propTypes.string,
+  value: propTypes.any,
   type: propTypes.string,
   placeholder: propTypes.string,
   onChange: propTypes.func,

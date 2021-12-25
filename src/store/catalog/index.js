@@ -44,6 +44,7 @@ class CatalogStore extends StoreModule {
     const urlParams = qs.parse(window.location.search, QS_OPTIONS.parse) || {}
     let validParams = {};
 
+    // validParams.page = Number(urlParams.page) || 1
     if (urlParams.page && urlParams.categoryId === 'all') {
       validParams.page = Number(urlParams.page) || 1
     } else {

@@ -7,19 +7,13 @@
   margin-bottom: 5px;
   margin-top: 20px;
 }
-.Form input {
-  line-height: 1.7rem;
-}
-.Form select {
-  padding: 7px 0;
-}
-input[name="title"], select[name="maidIn"] {
+.Form-title, .maidIn select {
   width: 40%;
 }
-select[name="category"] {
+.category select {
   width: 23%;
 }
-input[name="edition"], input[name="price"] {
+.Form-edition, .Form-price {
   width: 30%;
 }
 .Form button {

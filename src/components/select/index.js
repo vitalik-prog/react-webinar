@@ -12,7 +12,7 @@ function Select(props){
   }, [props.onChange])
 
   return (
-    <select name={props.name} className={className()} onChange={onSelect} value={props.value}>
+    <select className={className()} onChange={onSelect} value={props.value}>
       {props.options.map((item, index) => (
         <option key={index} value={item.value}>{item.title}</option>
       ))}
@@ -30,7 +30,6 @@ Select.propTypes = {
 Select.defaultProps = {
   onChange: () => {
   },
-  name: 'select'
 }
 
 export default React.memo(Select);

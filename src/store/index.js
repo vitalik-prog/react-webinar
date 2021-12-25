@@ -93,6 +93,13 @@ class Store {
     return this.get('categories');
   }
 
+  /**
+   * @return {CountriesStore}
+   */
+  get countries(){
+    return this.get('countries');
+  }
+
 }
 
 export default Store;

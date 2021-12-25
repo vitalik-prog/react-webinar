@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {useNavigate} from "react-router-dom";
 import Header from "../../containers/header";
 import useSelector from "../../utils/use-selector";
@@ -14,22 +14,24 @@ const CreateArticle = () => {
 
   const select = useSelector(state => ({
     article: state.article.data,
-    countries: state.article.countries,
+    countries: state.countries.countries,
     categories: state.categories.categories,
     validationErrors: state.article.validationErrors,
-    waitingArticle: state.article.waiting,
     waitingCategories: state.categories.waiting,
+    waitingCountries: state.countries.waiting,
   }));
 
   //Начальная загрузка
-  useInit(async () => {
-    if (!Object.keys(select.countries).length) {
-      await store.get('article').getCountries();
-    }
-    if (!select.categories.length) {
-      await store.categories.getCategories();
-    }
-  }, [], {backForward: true});
+  useInit(() => {
+    Promise.all([
+      store.countries.load(),
+      store.categories.load()
+    ]).then();
+  }, []);
+
+  useEffect(() => {
+    return () => store.get('article').resetErrors()
+  }, [])
 
   const callbacks = {
     onArticleCreate: useCallback(async (article) => {
@@ -53,9 +55,9 @@ const CreateArticle = () => {
   }
 
   return (
-    <Layout>
+    <Layout head={<h1>Создание товара</h1>}>
       <Header/>
-      <Spinner active={select.waitingArticle || select.waitingCategories}>
+      <Spinner active={select.waitingCategories || select.waitingCountries}>
         <ConfigureArticleForm
           countries={options.countries}
           categories={options.categories}

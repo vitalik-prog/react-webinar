@@ -17,7 +17,7 @@ class CategoriesStore extends StoreModule {
    * Получение всех категорий товаров.
    * И запись в стор.
    */
-  async getCategories(){
+  async load(){
     const response = await fetch(`/api/v1/categories?limit=*&fields=_id,parent,title`);
     const json = await response.json();
 

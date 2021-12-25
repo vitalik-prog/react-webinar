@@ -145,35 +145,6 @@ class ArticleStore extends StoreModule {
       validationErrors: {}
     });
   }
-
-  /**
-   * Получение всех стран
-   */
-  async getCountries() {
-    this.updateState({
-      waiting: true,
-    });
-
-    try {
-      const response = await fetch(`/api/v1/countries?limit=*&fields=_id,title,code&sort=title.ru`);
-      const json = await response.json();
-      if (json.error) throw new Error(json.error);
-      this.updateState({
-        countries: json.result.items.map(country => {
-          return {...country, value: country._id}
-        }),
-      });
-
-    } catch (e){
-      this.updateState({
-        countries: [],
-      });
-    } finally {
-      this.updateState({
-        waiting: false,
-      });
-    }
-  }
 }
 
 export default ArticleStore;

@@ -44,12 +44,7 @@ class CatalogStore extends StoreModule {
     const urlParams = qs.parse(window.location.search, QS_OPTIONS.parse) || {}
     let validParams = {};
 
-    //validParams.page = Number(urlParams.page) || 1
-    if (urlParams.page && urlParams.categoryId === 'all') {
-      validParams.page = Number(urlParams.page) || 1
-    } else {
-      validParams.page = 1
-    }
+    if (urlParams.page) validParams.page = Number(urlParams.page) || 1;
     if (urlParams.limit) validParams.limit = Number(urlParams.limit) || 10;
     if (urlParams.sort) validParams.sort = urlParams.sort;
     if (urlParams.query) validParams.query = urlParams.query;
@@ -81,7 +76,11 @@ class CatalogStore extends StoreModule {
 
     const categoryParam = newParams.categoryId && newParams.categoryId !== 'all' ? `&search[category]=${newParams.categoryId}` : ''
     const prevCategoryId = this.getState().params.categoryId
-    const skip = prevCategoryId === newParams.categoryId ? (newParams.page - 1) * newParams.limit : 0;
+    let skip = (newParams.page - 1) * newParams.limit;
+    if (prevCategoryId !== newParams.categoryId) {
+      skip = 0;
+      newParams.page = 1;
+    }
 
     this.setState({
       ...this.getState(),

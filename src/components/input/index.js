@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import propTypes from "prop-types";
 import {cn} from '@bem-react/classname'
 import './styles.css';
 import throttle from "lodash.throttle";
+import debounce from 'lodash.debounce';
 
 function Input(props) {
 
@@ -13,16 +14,17 @@ function Input(props) {
   // const changeThrottle = useCallback(throttle(value => {
   //   console.log(value)
   //   props.onChange(value)
-  //   }, 5000)
+  //   }, 1000)
   // , []);
 
-  const changeThrottle = useCallback((value) => setTimeout(
-    () => props.onChange(value), 1000), [props.onChange]);
+  const changeThrottle = useMemo(() => debounce(value => props.onChange(value), 1000), [props.onChange]);
 
   // Обработчик изменений в поле
   const onChange = useCallback(event => {
     change(event.target.value);
-    changeThrottle(event.target.value);
+    if (props.isThrottling) {
+      changeThrottle(event.target.value);
+    }
   }, [change, changeThrottle]);
 
   // Обновление стейта, если передан новый value
@@ -50,13 +52,15 @@ Input.propTypes = {
   placeholder: propTypes.string,
   onChange: propTypes.func,
   theme: propTypes.string,
+  isThrottling: propTypes.bool
 }
 
 Input.defaultProps = {
   onChange: () => {
   },
   type: 'text',
-  theme: ''
+  theme: '',
+  isThrottling: false
 }
 
 export default React.memo(Input);

@@ -32,10 +32,17 @@ function CatalogFilter() {
 
   const callbacks = {
     onSort: useCallback(event => store.catalog.setParams({sort: event.target.value}), [store]),
-    onSearch: useCallback(query => store.catalog.setParams({query, page: 1}), [store]),
+    onSearch: useCallback(query => {
+      console.log(query)
+      store.catalog.setParams({query, page: 1})
+    }, [store]),
     onReset: useCallback(() => store.catalog.resetParams(), [store]),
     onFilter: useCallback(event => store.catalog.setParams({categoryId: event.target.value}), [store]),
   }
+
+  // const onSearch = (query) => {
+  //   store.catalog.setParams({query, page: 1})
+  // }
 
   return (
     <LayoutTools>

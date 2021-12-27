@@ -10,7 +10,14 @@ function Input(props) {
   const [value, change] = useState(props.value);
 
   // Задержка для вызова props.onChange
-  const changeThrottle = useCallback(throttle(value => props.onChange(value), 1000), [props.onChange]);
+  // const changeThrottle = useCallback(throttle(value => {
+  //   console.log(value)
+  //   props.onChange(value)
+  //   }, 5000)
+  // , []);
+
+  const changeThrottle = useCallback((value) => setTimeout(
+    () => props.onChange(value), 1000), [props.onChange]);
 
   // Обработчик изменений в поле
   const onChange = useCallback(event => {
@@ -46,7 +53,8 @@ Input.propTypes = {
 }
 
 Input.defaultProps = {
-  onChange: () => {},
+  onChange: () => {
+  },
   type: 'text',
   theme: ''
 }

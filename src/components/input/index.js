@@ -2,30 +2,22 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import propTypes from "prop-types";
 import {cn} from '@bem-react/classname'
 import './styles.css';
-import throttle from "lodash.throttle";
-import debounce from 'lodash.debounce';
+import {useDebounce} from "../../utils/use-debaunce";
 
 function Input(props) {
 
   // Внутренний стейт по умолчанию с переданным value
   const [value, change] = useState(props.value);
+  const debouncedValue = useDebounce(value, 1500);
 
-  // Задержка для вызова props.onChange
-  // const changeThrottle = useCallback(throttle(value => {
-  //   console.log(value)
-  //   props.onChange(value)
-  //   }, 1000)
-  // , []);
-
-  const changeThrottle = useMemo(() => debounce(value => props.onChange(value), 1000), [props.onChange]);
+  useEffect(() => {
+    props.onChange(debouncedValue)
+  }, [debouncedValue]);
 
   // Обработчик изменений в поле
   const onChange = useCallback(event => {
     change(event.target.value);
-    if (props.isThrottling) {
-      changeThrottle(event.target.value);
-    }
-  }, [change, changeThrottle]);
+  }, [change]);
 
   // Обновление стейта, если передан новый value
   useEffect(() => {
